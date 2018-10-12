@@ -8,5 +8,9 @@ namespace NoteBook
 {
     class Presenter
     {
+        private IModel model;
+        private IView view;
+
+
     }
 }
