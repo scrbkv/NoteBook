@@ -16,13 +16,19 @@ using System.Windows.Shapes;
 namespace NoteBook
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для View.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class View : Window, IView
     {
-        public MainWindow()
+        public View()
         {
             InitializeComponent();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            EditWindow editWindow = new EditWindow();
+            editWindow.ShowDialog();
         }
     }
 }

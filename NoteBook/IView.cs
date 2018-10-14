@@ -9,4 +9,5 @@ namespace NoteBook
     interface IView
     {
     }
+
 }
