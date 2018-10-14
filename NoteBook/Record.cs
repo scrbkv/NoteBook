@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NoteBook
 {
-    class Record
+    public class Record
     {
         public Guid id;
         public string username;

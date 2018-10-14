@@ -15,14 +15,20 @@ using System.Windows.Shapes;
 
 namespace NoteBook
 {
-    /// <summary>
-    /// Логика взаимодействия для View.xaml
-    /// </summary>
     public partial class View : Window, IView
     {
         public View()
         {
             InitializeComponent();
+        }
+
+        public event UserModifiedHandler UserModified;
+        public event UserAddedHandler UserAdded;
+        public event UserDeletedHandler UserDeleted;
+
+        public void Update(List<Record> records)
+        {
+            this.Records.ItemsSource = records;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

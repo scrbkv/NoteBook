@@ -1,4 +1,4 @@
-﻿<Window x:Class="NoteBook.View"
+﻿<Window x:Name="Main" x:Class="NoteBook.View"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="NoteBook" Height="350" Width="525">
     <Grid>
-        <ListBox HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" IsSynchronizedWithCurrentItem="False"/>
+        <ListBox x:Name="Records" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" IsSynchronizedWithCurrentItem="False" SelectionChanged="Records_SelectionChanged"/>
         <Button x:Name="AddButton" Content="Добавить" HorizontalAlignment="Left" Margin="395,10,0,0" VerticalAlignment="Top" Width="112" Height="37" Click="AddButton_Click"/>
         <Button x:Name="EditButton" Content="Изменить" HorizontalAlignment="Left" Margin="395,52,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False"/>
         <Button x:Name="DeleteButton" Content="Удалить" HorizontalAlignment="Left" Margin="395,94,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False"/>
