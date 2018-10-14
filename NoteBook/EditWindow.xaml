@@ -17,8 +17,8 @@
         <TextBox x:Name="Position" HorizontalAlignment="Left" Height="23" Margin="10,123,0,0" TextWrapping="Wrap" Text="Должность" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
         <TextBox x:Name="Login" HorizontalAlignment="Left" Height="23" Margin="10,170,0,0" TextWrapping="Wrap" Text="Логин" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
         <TextBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="10,198,0,0" TextWrapping="Wrap" Text="Пароль" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
-        <Button x:Name="Save" Content="Сохранить" Grid.Column="1" HorizontalAlignment="Left" Margin="108,237,0,0" VerticalAlignment="Top" Width="73" Height="22"/>
-        <Button x:Name="Cancel" Content="Отменить" Grid.Column="1" HorizontalAlignment="Left" Margin="28,237,0,0" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button x:Name="Save" Content="Сохранить" Grid.Column="1" HorizontalAlignment="Left" Margin="108,237,0,0" VerticalAlignment="Top" Width="73" Height="22" Click="Save_Click"/>
+        <Button x:Name="Cancel" Content="Отменить" Grid.Column="1" HorizontalAlignment="Left" Margin="28,237,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="Cancel_Click"/>
         <StatusBar x:Name="PWStrength" HorizontalAlignment="Left" Height="4" Margin="10,226,0,0" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2">
             <StatusBar.Effect>
                 <BlurEffect KernelType="Box"/>

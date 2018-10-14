@@ -33,7 +33,7 @@ namespace NoteBook
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            EditWindow editWindow = new EditWindow();
+            EditWindow editWindow = new EditWindow(new Record());
             editWindow.ShowDialog();
         }
     }
