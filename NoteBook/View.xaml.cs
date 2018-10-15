@@ -39,9 +39,9 @@ namespace NoteBook
             this.SaveUser(record);
         }
 
-        public void IncorrectData(Record record, ErrorStruct error)
+        public void IncorrectData(ErrorStruct error)
         {
-            this.editWindow.IncorrectData(record, error);
+            this.editWindow.IncorrectData(error);
         }
 
         public void Update(List<Record> records)

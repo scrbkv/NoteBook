@@ -30,7 +30,9 @@ namespace NoteBook
 
         private void View_UserModified(Record record)
         {
-            throw new NotImplementedException();
+            var errStruct = model.CheckRecord(record);
+            if (errStruct == false)
+                view.IncorrectData(errStruct);
         }
 
         private void View_UserDeleted(Guid recordUid)
@@ -45,7 +47,7 @@ namespace NoteBook
 
         private void Model_IncorrectRecord(ErrorStruct errStruct)
         {
-            view.IncorrectData();
+            view.IncorrectData(errStruct);
         }
     }
 }

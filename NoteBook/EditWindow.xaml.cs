@@ -55,7 +55,7 @@ namespace NoteBook
             this.ApplyChanges(record);
         }
 
-        public void IncorrectData(Record record, ErrorStruct errStruct)
+        public void IncorrectData(ErrorStruct errStruct)
         {
             if (errStruct.IncorrectFirstName)
                 this.IncorrectFirstNameLabel.Visibility = Visibility.Visible;
