@@ -7,19 +7,20 @@ using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace NoteBook
-{
-
+{ 
     public delegate void DBUpdatedHandler(List<Record> data);
     public delegate void IncorrectRecordHandler(ErrorStruct errStruct);
+    public delegate void ConnectionErrorHandler();
 
     interface IModel
     {
         event DBUpdatedHandler DBUpdated;
         event IncorrectRecordHandler IncorrectRecord;
+        event ConnectionErrorHandler ConnectionError;
 
         ErrorStruct AddRecord(Record record);
         bool DeleteRecord(Guid recordUid);
-        ErrorStruct EditRecord(Record record);
+        ErrorStruct CheckRecord(Record record);
 
         List<Record> GetRecords();
     }
@@ -35,6 +36,7 @@ namespace NoteBook
 
         public event DBUpdatedHandler DBUpdated;
         public event IncorrectRecordHandler IncorrectRecord;
+        public event ConnectionErrorHandler ConnectionError;
 
         public ErrorStruct AddRecord(Record user)
         {
@@ -73,6 +75,11 @@ namespace NoteBook
             return new ErrorStruct();
         }
 
+        public ErrorStruct CheckRecord(Record record)
+        {
+            return new ErrorStruct();
+        }
+
         public bool DeleteRecord(Guid recordUid)
         {
             MySqlConnection connection = new MySqlConnection(_connectStr);
@@ -97,33 +104,6 @@ namespace NoteBook
 
             connection.Close();
             return true;
-        }
-
-        public ErrorStruct EditRecord(Record user)
-        {
-            MySqlConnection connection = new MySqlConnection(_connectStr);
-
-            try
-            {
-                Console.WriteLine("Openning Connection ...");
-
-                connection.Open();
-
-                Console.WriteLine("Connection successful!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
-
-            string sql = "REPLACE INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.id + "'" + user.login + "','" + user.password + "','" + user.name + "','" + user.secondName + "','" + user.surname + "','" + user.initials + "','" + user.position + "')";
-            MySqlCommand command = new MySqlCommand(sql, connection);
-
-            command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();
-
-            connection.Close();
-            return new ErrorStruct();
         }
 
         public List<Record> GetRecords()

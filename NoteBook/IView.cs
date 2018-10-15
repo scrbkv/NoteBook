@@ -17,7 +17,7 @@ namespace NoteBook
         event SaveUserHandler SaveUser;
 
         void Update(List<Record> records);
-        void IncorrectData(Record record, ErrorStruct error);
+        void IncorrectData(ErrorStruct error);
     }
 
 }
