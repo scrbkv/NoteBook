@@ -39,35 +39,21 @@ namespace NoteBook
         public ErrorStruct AddRecord(Record user)
         {
             MySqlConnection connection = new MySqlConnection(_connectStr);
-
-            try
-            {
-                Console.WriteLine("Openning Connection ...");
-
-                connection.Open();
-
-                Console.WriteLine("Connection successful!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
+            
+            connection.Open();                        
 
             string check = "SELECT name FROM users_table WHERE id = " + user.id;
             MySqlCommand command = new MySqlCommand(check, connection);
             command.ExecuteNonQuery();
 
-            if (command.ExecuteScalar() != null)
-            {
-                string sql = "INSERT INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Username + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
+            if (command.ExecuteScalar() != null)            
+                string sql = "INSERT INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";                            
+            else            
+                string sql = "REPLACE INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
+            
 
-                command = new MySqlCommand(sql, connection);
-                command.ExecuteNonQuery();
-            }
-            else
-            {
-
-            }
+            command = new MySqlCommand(sql, connection);
+            command.ExecuteNonQuery();
 
             connection.Close();
             return new ErrorStruct();
@@ -76,55 +62,19 @@ namespace NoteBook
         public bool DeleteRecord(Guid recordUid)
         {
             MySqlConnection connection = new MySqlConnection(_connectStr);
+            
+            Console.WriteLine("Openning Connection ...");
 
-            try
-            {
-                Console.WriteLine("Openning Connection ...");
+            connection.Open();             
 
-                connection.Open();
-
-                Console.WriteLine("Connection successful!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
-
-            string sql = "DELETE FROM users_table WHERE login = \"" + user.login + "\"";
+            string sql = "DELETE FROM users_table WHERE login = \"" + user.Login + "\"";
 
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
 
             connection.Close();
             return true;
-        }
-
-        public ErrorStruct EditRecord(Record user)
-        {
-            MySqlConnection connection = new MySqlConnection(_connectStr);
-
-            try
-            {
-                Console.WriteLine("Openning Connection ...");
-
-                connection.Open();
-
-                Console.WriteLine("Connection successful!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
-
-            string sql = "REPLACE INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.id + "'" + user.login + "','" + user.password + "','" + user.name + "','" + user.secondName + "','" + user.surname + "','" + user.initials + "','" + user.position + "')";
-            MySqlCommand command = new MySqlCommand(sql, connection);
-
-            command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();
-
-            connection.Close();
-            return new ErrorStruct();
-        }
+        }       
 
         public List<Record> GetRecords()
         {
