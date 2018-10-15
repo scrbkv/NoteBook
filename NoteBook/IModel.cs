@@ -9,7 +9,7 @@ using System.Data;
 namespace NoteBook
 {
 
-    public delegate void DBUpdatedHandler(string newState);
+    public delegate void DBUpdatedHandler(List<Record> data);
     public delegate void IncorrectRecordHandler(ErrorStruct errStruct);
 
     interface IModel
@@ -17,9 +17,9 @@ namespace NoteBook
         event DBUpdatedHandler DBUpdated;
         event IncorrectRecordHandler IncorrectRecord;
 
-        void AddRecord(ref Record record);
-        void DeleteRecord(ref Record user);
-        void EditRecord(ref Record record);
+        ErrorStruct AddRecord(Record record);
+        bool DeleteRecord(Guid recordUid);
+        ErrorStruct EditRecord(Record record);
 
         List<Record> GetRecords();
     }
@@ -32,7 +32,11 @@ namespace NoteBook
         {
             _connectStr = "server=localhost;user=root;database=users_base;password=rootme";
         }
-        public void AddRecord(ref Record user)
+
+        public event DBUpdatedHandler DBUpdated;
+        public event IncorrectRecordHandler IncorrectRecord;
+
+        public ErrorStruct AddRecord(Record user)
         {
             MySqlConnection connection = new MySqlConnection(_connectStr);
 
@@ -66,9 +70,10 @@ namespace NoteBook
             }
 
             connection.Close();
+            return new ErrorStruct();
         }
 
-        public void DeleteRecord(Guid recordUid)
+        public bool DeleteRecord(Guid recordUid)
         {
             MySqlConnection connection = new MySqlConnection(_connectStr);
 
@@ -91,9 +96,10 @@ namespace NoteBook
             command.ExecuteNonQuery();
 
             connection.Close();
+            return true;
         }
 
-        public void EditRecord(ref Record user)
+        public ErrorStruct EditRecord(Record user)
         {
             MySqlConnection connection = new MySqlConnection(_connectStr);
 
@@ -117,6 +123,7 @@ namespace NoteBook
             command.ExecuteNonQuery();
 
             connection.Close();
+            return new ErrorStruct();
         }
 
         public List<Record> GetRecords()

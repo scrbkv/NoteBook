@@ -23,6 +23,11 @@ namespace NoteBook
             view.UserModified += View_UserModified;
         }
 
+        private void Model_DBUpdated(List<Record> data)
+        {
+            view.Update(data);
+        }
+
         private void View_UserModified(Record record)
         {
             throw new NotImplementedException();
@@ -35,12 +40,7 @@ namespace NoteBook
 
         private void View_SaveUser(Record record)
         {
-            model.AddRecord(ref record);
-        }
-
-        private void Model_DBUpdated(string newState)
-        {
-            view.Update()
+            model.AddRecord(record);
         }
 
         private void Model_IncorrectRecord(ErrorStruct errStruct)
