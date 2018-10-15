@@ -16,14 +16,19 @@
         <TextBox x:Name="SecondName" HorizontalAlignment="Left" Height="23" Margin="10,81,0,0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
         <TextBox x:Name="Position" HorizontalAlignment="Left" Height="23" Margin="10,123,0,0" TextWrapping="Wrap" Text="Должность" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
         <TextBox x:Name="Login" HorizontalAlignment="Left" Height="23" Margin="10,170,0,0" TextWrapping="Wrap" Text="Логин" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="10,198,0,0" TextWrapping="Wrap" Text="Пароль" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="10,198,0,0" TextWrapping="Wrap" Text="Пароль" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" TextChanged="TextChanged"/>
         <Button x:Name="Save" Content="Сохранить" Grid.Column="1" HorizontalAlignment="Left" Margin="108,237,0,0" VerticalAlignment="Top" Width="73" Height="22" Click="Save_Click"/>
         <Button x:Name="Cancel" Content="Отменить" Grid.Column="1" HorizontalAlignment="Left" Margin="28,237,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="Cancel_Click"/>
-        <StatusBar x:Name="PWStrength" HorizontalAlignment="Left" Height="4" Margin="10,226,0,0" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2">
-            <StatusBar.Effect>
+        <ProgressBar x:Name="PWStrength" HorizontalAlignment="Left" Height="4" Margin="10,226,0,0" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2">
+            <ProgressBar.Effect>
                 <BlurEffect KernelType="Box"/>
-            </StatusBar.Effect>
-        </StatusBar>
+            </ProgressBar.Effect>
+        </ProgressBar>
+        <Label x:Name="IncorrectSurnameLabel" Content="Фамилия должна начинаться &#xD;&#xA;с заглавной буквы!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.149,0.269" Height="39" Width="166" FontSize="9" Visibility="Hidden"/>
+        <Label x:Name="IncorrectFirstNameLabel" Content="Имя должно начинаться &#xA;с заглавной буквы!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,52,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.149,0.269" Height="37" Width="166" FontSize="9" Visibility="Hidden"/>
+        <Label x:Name="IncorrectSecondNameLabel" Content="Отчество должно начинаться &#xA;с заглавной буквы!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.149,0.269" Height="39" Width="166" FontSize="9" Visibility="Hidden"/>
+        <Label x:Name="IncorrectLoginLabel" Content="Это имя пользователя уже занято!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,170,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.149,0.269" Height="22" Width="166" FontSize="9" Visibility="Hidden"/>
+        <Label x:Name="IncorrectPasswordLabel" Content="Пароль не соответствует требованиям!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,197,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
 
     </Grid>
 </Window>

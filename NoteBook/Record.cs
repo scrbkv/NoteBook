@@ -42,12 +42,12 @@ namespace NoteBook
             IncorrectSurname = !surname;
         }
 
-        PassStrength PWStrength { get; }
-        bool IncorrectLogin { get; }
-        bool IncorrectFirstName { get; }
-        bool IncorrectSecondName { get; }
-        bool IncorrectSurname { get; }
+        public PassStrength PWStrength { get; }
+        public bool IncorrectLogin { get; }
+        public bool IncorrectFirstName { get; }
+        public bool IncorrectSecondName { get; }
+        public bool IncorrectSurname { get; }
 
-        bool Correct { get; }
+        public bool Correct { get; }
     }
 }

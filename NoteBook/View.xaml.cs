@@ -17,14 +17,32 @@ namespace NoteBook
 {
     public partial class View : Window, IView
     {
+        public event UserModifiedHandler UserModified;
+        public event UserDeletedHandler UserDeleted;
+        public event SaveUserHandler SaveUser;
+        private EditWindow editWindow;
+
         public View()
         {
             InitializeComponent();
+            this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
+            this.editWindow.RecordModified += EditWindow_RecordModified;
         }
 
-        public event UserModifiedHandler UserModified;
-        public event UserAddedHandler UserAdded;
-        public event UserDeletedHandler UserDeleted;
+        private void EditWindow_RecordModified(Record record)
+        {
+            this.UserModified(record);
+        }
+
+        private void EditWindow_ApplyChanges(Record record)
+        {
+            this.SaveUser(record);
+        }
+
+        public void IncorrectData(Record record, ErrorStruct error)
+        {
+            this.editWindow.IncorrectData(record, error);
+        }
 
         public void Update(List<Record> records)
         {
@@ -33,7 +51,7 @@ namespace NoteBook
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            EditWindow editWindow = new EditWindow(new Record());
+            editWindow = new EditWindow(new Record());
             editWindow.ShowDialog();
         }
     }

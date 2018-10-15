@@ -10,7 +10,7 @@ namespace NoteBook
 {
 
     public delegate void DBUpdatedHandler(string newState);
-    public delegate void IncorrectRecordHandler();
+    public delegate void IncorrectRecordHandler(ErrorStruct errStruct);
 
     interface IModel
     {
@@ -55,8 +55,7 @@ namespace NoteBook
 
             if (command.ExecuteScalar() != null)
             {
-                user.id = Guid.NewGuid();
-                string sql = "INSERT INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.id + "'" + user.login + "','" + user.password + "','" + user.name + "','" + user.secondName + "','" + user.surname + "','" + user.initials + "','" + user.position + "')";
+                string sql = "INSERT INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Username + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
 
                 command = new MySqlCommand(sql, connection);
                 command.ExecuteNonQuery();
@@ -69,7 +68,7 @@ namespace NoteBook
             connection.Close();
         }
 
-        public void DeleteRecord(ref Record user)
+        public void DeleteRecord(Guid recordUid)
         {
             MySqlConnection connection = new MySqlConnection(_connectStr);
 
@@ -145,7 +144,7 @@ namespace NoteBook
             adapter.SelectCommand = command;
             adapter.Fill(dt);
 
-            for (int i = 0; i < dt.Rows.Count; ++i)
+            foreach (DataRow data in dt.Rows)
             {
                 list.Add(new Record());
             }
