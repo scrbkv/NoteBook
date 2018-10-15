@@ -19,7 +19,7 @@ namespace NoteBook
 
         ErrorStruct AddRecord(Record record);
         bool DeleteRecord(Guid recordUid);
-        ErrorStruct EditRecord(Record record);
+        ErrorStruct CheckRecord(Record record);
 
         List<Record> GetRecords();
     }
@@ -38,7 +38,7 @@ namespace NoteBook
 
         public ErrorStruct AddRecord(Record user)
         {
-            MySqlConnection connection = new MySqlConnection(_connectStr);
+           /* MySqlConnection connection = new MySqlConnection(_connectStr);
             
             connection.Open();                        
 
@@ -55,13 +55,18 @@ namespace NoteBook
             command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
 
-            connection.Close();
+            connection.Close();*/
             return new ErrorStruct();
+        }
+
+        public ErrorStruct CheckRecord(Record record)
+        {
+            throw new NotImplementedException();
         }
 
         public bool DeleteRecord(Guid recordUid)
         {
-            MySqlConnection connection = new MySqlConnection(_connectStr);
+            /*MySqlConnection connection = new MySqlConnection(_connectStr);
             
             Console.WriteLine("Openning Connection ...");
 
@@ -72,9 +77,10 @@ namespace NoteBook
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
 
-            connection.Close();
+            connection.Close();*/
             return true;
-        }       
+        }
+
 
         public List<Record> GetRecords()
         {

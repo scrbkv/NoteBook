@@ -34,7 +34,7 @@ namespace NoteBook
             this.FirstName.Text = user.Name == "" ? "Имя" : user.Name;
             this.SecondName.Text = user.SecondName == "" ? "Отчество" : user.SecondName;
             this.Position.Text = user.Position == "" ? "Должность" : user.Position;
-            this.Login.Text = user.Username == "" ? "Логин" : user.Username;
+            this.Login.Text = user.Login == "" ? "Логин" : user.Login;
             this.Password.Text = user.Password == "" ? "Пароль" : "<Без изменений>";
         }
 
@@ -49,7 +49,7 @@ namespace NoteBook
             record.Surname = this.Surname.Text;
             record.SecondName = this.SecondName.Text;
             record.Position = this.Position.Text;
-            record.Username = this.Login.Text;
+            record.Login = this.Login.Text;
             if (this.Password.Text != "<Без изменений>")
                 record.Password = this.Password.Text;
             this.ApplyChanges(record);
@@ -89,7 +89,7 @@ namespace NoteBook
             record.Surname = this.Surname.Text;
             record.SecondName = this.SecondName.Text;
             record.Position = this.Position.Text;
-            record.Username = this.Login.Text;
+            record.Login = this.Login.Text;
             if (this.Password.Text != "<Без изменений>")
                 record.Password = this.Password.Text;
             this.ApplyChanges(record);

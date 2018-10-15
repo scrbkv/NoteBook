@@ -54,5 +54,11 @@ namespace NoteBook
             editWindow = new EditWindow(new Record());
             editWindow.ShowDialog();
         }
+
+        private void Records_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            this.editWindow = new EditWindow(this.Records.SelectedItem as Record);
+            this.editWindow.ShowDialog();
+        }
     }
 }
