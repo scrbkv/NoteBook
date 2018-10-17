@@ -13,7 +13,7 @@ namespace NoteBook
 
         public Presenter()
         {
-            this.model = new Model();
+            this.model = new Model("localhost", "root", "users_base", "rootme");
             this.view = new View();
 
             model.IncorrectRecord += Model_IncorrectRecord;

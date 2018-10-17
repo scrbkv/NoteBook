@@ -26,11 +26,11 @@ namespace NoteBook
 
     class Model : IModel
     {
-        private string _connectStr;
+        private string _connectStr;      
 
-        public Model()
+        public Model(string ip, string user, string dataBase, string password)
         {
-            _connectStr = "server=localhost;user=root;database=users_base;password=rootme";
+            _connectStr = "server=" + ip + ";user=" + user + ";database=" + dataBase + ";password=" + password;
         }
 
         public event DBUpdatedHandler DBUpdated;
@@ -46,22 +46,7 @@ namespace NoteBook
             MySqlCommand command = new MySqlCommand(check, connection);
             string sql = "";
             command.ExecuteNonQuery();
-
-            ErrorStruct error = new ErrorStruct();
-            bool login = true;
-            bool firstName = true;
-            bool secondName = true;
-            bool surname = true;
-            ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();
-            if (!char.IsUpper(user.Name[0]))
-                login = false;
-            if (!char.IsUpper(user.SecondName[0]))
-                firstName = false;
-            if (!char.IsUpper(user.Surname[0]))
-                secondName = false;
-            if (!char.IsUpper(user.Name[0]))
-                login = false;
-
+            
             if (command.ExecuteScalar() != null)
                 sql = "INSERT INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
             else
@@ -75,9 +60,41 @@ namespace NoteBook
             return new ErrorStruct();
         }
 
-        public ErrorStruct CheckRecord(Record record)
-        {
-            throw new NotImplementedException();
+        public ErrorStruct CheckRecord(Record user)
+        {          
+            CheckPassword check = new CheckPassword();
+            bool login = true;
+            bool firstName = true;
+            bool secondName = true;
+            bool surname = true;            
+            ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();            
+            if (!char.IsUpper(user.SecondName[0]))
+                firstName = false;
+            if (!char.IsUpper(user.Surname[0]))
+                secondName = false;
+            if (!char.IsUpper(user.Name[0]))
+                firstName = false;
+
+            if (check.CheckPass(user.Password) <= 2)
+                password = ErrorStruct.PassStrength.Low;
+            else if (check.CheckPass(user.Password) == 3 || check.CheckPass(user.Password) == 4)
+                password = ErrorStruct.PassStrength.Medium;
+            else
+                password = ErrorStruct.PassStrength.High;
+
+            MySqlConnection connection = new MySqlConnection(_connectStr);
+            string sql = "SELECT name FROM users_table WHERE id = " + user.Login;
+            MySqlCommand command = new MySqlCommand(sql, connection);
+            connection.Open();
+            command.ExecuteNonQuery();
+
+            if (command.ExecuteScalar() != null)
+                login = false;
+
+            connection.Close();
+
+            return new ErrorStruct(login, firstName, secondName, surname, password);
+            //throw new NotImplementedException();
         }
 
         public bool DeleteRecord(Record record)

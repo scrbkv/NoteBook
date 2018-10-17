@@ -17,6 +17,7 @@ namespace NoteBook
             if (ContainsPunctuation(pass)) ++strength;
             if (ContainsSeparator(pass)) ++strength;
             if (ContainsUpperLetter(pass)) ++strength;
+            if (pass.Length >= 10) ++strength;
 
             return strength;
         }
