@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace NoteBook
 {
     public class Record
-    {
-        public Guid Id { get; }
+    {        
         public string Login { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
@@ -17,9 +16,18 @@ namespace NoteBook
         public string Position { get; set; }
         public string Initials { get; set; }
 
+        public Record(string Login, string Password, string Name, string Surname, string SecondName, string Position)
+        {           
+            this.Login = Login;
+            this.Password = Password;
+            this.Name = Name;
+            this.Surname = Surname;
+            this.SecondName = SecondName;
+            this.Position = Position;            
+        }
+
         public Record()
         {
-            Id = Guid.NewGuid();
 
         }
     }

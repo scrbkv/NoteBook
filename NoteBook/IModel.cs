@@ -18,7 +18,7 @@ namespace NoteBook
         event IncorrectRecordHandler IncorrectRecord;
 
         ErrorStruct AddRecord(Record record);
-        bool DeleteRecord(Guid recordUid);
+        bool DeleteRecord(Record record);
         ErrorStruct CheckRecord(Record record);
 
         List<Record> GetRecords();
@@ -38,24 +38,40 @@ namespace NoteBook
 
         public ErrorStruct AddRecord(Record user)
         {
-           /* MySqlConnection connection = new MySqlConnection(_connectStr);
-            
-            connection.Open();                        
+            MySqlConnection connection = new MySqlConnection(_connectStr);
 
-            string check = "SELECT name FROM users_table WHERE id = " + user.id;
+            connection.Open();
+
+            string check = "SELECT name FROM users_table WHERE id = " + user.Login;
             MySqlCommand command = new MySqlCommand(check, connection);
+            string sql = "";
             command.ExecuteNonQuery();
 
-            if (command.ExecuteScalar() != null)            
-                string sql = "INSERT INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";                            
-            else            
-                string sql = "REPLACE INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
-            
+            ErrorStruct error = new ErrorStruct();
+            bool login = true;
+            bool firstName = true;
+            bool secondName = true;
+            bool surname = true;
+            ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();
+            if (!char.IsUpper(user.Name[0]))
+                login = false;
+            if (!char.IsUpper(user.SecondName[0]))
+                firstName = false;
+            if (!char.IsUpper(user.Surname[0]))
+                secondName = false;
+            if (!char.IsUpper(user.Name[0]))
+                login = false;
+
+            if (command.ExecuteScalar() != null)
+                sql = "INSERT INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
+            else
+                sql = "REPLACE INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
+
 
             command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
 
-            connection.Close();*/
+            connection.Close();
             return new ErrorStruct();
         }
 
@@ -64,40 +80,35 @@ namespace NoteBook
             throw new NotImplementedException();
         }
 
-        public bool DeleteRecord(Guid recordUid)
+        public bool DeleteRecord(Record record)
         {
-            /*MySqlConnection connection = new MySqlConnection(_connectStr);
-            
-            Console.WriteLine("Openning Connection ...");
+           MySqlConnection connection = new MySqlConnection(_connectStr);
 
-            connection.Open();             
+            try
+            {
+                connection.Open();
 
-            string sql = "DELETE FROM users_table WHERE login = \"" + user.Login + "\"";
+                string sql = "DELETE FROM users_table WHERE login = \"" + record.Login + "\"";
 
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                command.ExecuteNonQuery();
 
-            connection.Close();*/
-            return true;
+                connection.Close();
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
+           return true;
         }
 
 
         public List<Record> GetRecords()
         {
             MySqlConnection connection = new MySqlConnection(_connectStr);
-
-            try
-            {
-                Console.WriteLine("Openning Connection ...");
-
-                connection.Open();
-
-                Console.WriteLine("Connection successful!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
+            
+            connection.Open();             
 
             List<Record> list = new List<Record>();
             MySqlCommand command = new MySqlCommand("SELECT * FROM table", connection);
@@ -109,7 +120,7 @@ namespace NoteBook
 
             foreach (DataRow data in dt.Rows)
             {
-                list.Add(new Record());
+                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString()));
             }
 
             connection.Close();

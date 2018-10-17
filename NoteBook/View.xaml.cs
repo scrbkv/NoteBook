@@ -25,8 +25,6 @@ namespace NoteBook
         public View()
         {
             InitializeComponent();
-            this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
-            this.editWindow.RecordModified += EditWindow_RecordModified;
         }
 
         private void EditWindow_RecordModified(Record record)
@@ -52,12 +50,16 @@ namespace NoteBook
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             editWindow = new EditWindow(new Record());
+            this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
+            this.editWindow.RecordModified += EditWindow_RecordModified;
             editWindow.ShowDialog();
         }
 
         private void Records_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             this.editWindow = new EditWindow(this.Records.SelectedItem as Record);
+            this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
+            this.editWindow.RecordModified += EditWindow_RecordModified;
             this.editWindow.ShowDialog();
         }
     }
