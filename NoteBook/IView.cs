@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NoteBook
 {
     public delegate void UserModifiedHandler(Record record);
-    public delegate void UserDeletedHandler(Guid recordUid);
+    public delegate void UserDeletedHandler(Record record);
     public delegate void SaveUserHandler(Record record);
 
     interface IView

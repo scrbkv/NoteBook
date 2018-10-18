@@ -13,7 +13,7 @@ namespace NoteBook
 
         public Presenter()
         {
-            this.model = new Model("localhost", "root", "users_base", "rootme");
+            this.model = new Model();
             this.view = new View();
 
             model.IncorrectRecord += Model_IncorrectRecord;
@@ -35,9 +35,9 @@ namespace NoteBook
                 view.IncorrectData(errStruct);
         }
 
-        private void View_UserDeleted(Guid recordUid)
+        private void View_UserDeleted(Record user)
         {
-            model.DeleteRecord(recordUid);
+            model.DeleteRecord(user);
         }
 
         private void View_SaveUser(Record record)

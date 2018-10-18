@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace NoteBook
@@ -25,12 +24,18 @@ namespace NoteBook
     }
 
     class Model : IModel
-    {
-        private string _connectStr;      
+    {        
+        private Connection connection;
 
-        public Model(string ip, string user, string dataBase, string password)
+        public Model()
         {
-            _connectStr = "server=" + ip + ";user=" + user + ";database=" + dataBase + ";password=" + password;
+       
+        }
+
+        public void Connect(string ip, string user, string dataBase, string password)
+        {
+            connection = new Connection();
+            connection.Connect(ip, user, dataBase, password);
         }
 
         public event DBUpdatedHandler DBUpdated;
@@ -38,25 +43,11 @@ namespace NoteBook
 
         public ErrorStruct AddRecord(Record user)
         {
-            MySqlConnection connection = new MySqlConnection(_connectStr);
-
-            connection.Open();
-
-            string check = "SELECT name FROM users_table WHERE id = " + user.Login;
-            MySqlCommand command = new MySqlCommand(check, connection);
-            string sql = "";
-            command.ExecuteNonQuery();
-            
-            if (command.ExecuteScalar() != null)
-                sql = "INSERT INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
+            if (!connection.Existing(user))
+                connection.Add(user);
             else
-                sql = "REPLACE INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
-
-
-            command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();
-
-            connection.Close();
+                connection.Replace(user);
+           
             return new ErrorStruct();
         }
 
@@ -82,35 +73,17 @@ namespace NoteBook
             else
                 password = ErrorStruct.PassStrength.High;
 
-            MySqlConnection connection = new MySqlConnection(_connectStr);
-            string sql = "SELECT name FROM users_table WHERE id = " + user.Login;
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            connection.Open();
-            command.ExecuteNonQuery();
-
-            if (command.ExecuteScalar() != null)
-                login = false;
-
-            connection.Close();
+            login = connection.Existing(user);           
 
             return new ErrorStruct(login, firstName, secondName, surname, password);
             //throw new NotImplementedException();
         }
 
         public bool DeleteRecord(Record record)
-        {
-           MySqlConnection connection = new MySqlConnection(_connectStr);
-
+        {           
             try
             {
-                connection.Open();
-
-                string sql = "DELETE FROM users_table WHERE login = \"" + record.Login + "\"";
-
-                MySqlCommand command = new MySqlCommand(sql, connection);
-                command.ExecuteNonQuery();
-
-                connection.Close();
+                connection.Delete(record);
             }
             catch(Exception e)
             {
@@ -122,25 +95,15 @@ namespace NoteBook
 
 
         public List<Record> GetRecords()
-        {
-            MySqlConnection connection = new MySqlConnection(_connectStr);
-            
-            connection.Open();             
-
-            List<Record> list = new List<Record>();
-            MySqlCommand command = new MySqlCommand("SELECT * FROM table", connection);
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            DataTable dt = new DataTable();
-
-            adapter.SelectCommand = command;
-            adapter.Fill(dt);
+        {                        
+           List<Record> list = new List<Record>();
+           DataTable dt = connection.Get();
 
             foreach (DataRow data in dt.Rows)
             {
                 list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString()));
             }
-
-            connection.Close();
+            
             return list;
         }
     }
