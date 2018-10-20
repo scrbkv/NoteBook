@@ -65,9 +65,21 @@ namespace NoteBook
             command.ExecuteNonQuery();
         }
 
+        public DataTable Find(SearchStruct user)
+        {
+            MySqlCommand command = new MySqlCommand("SELECT'" + user.Field + "'FROM users_table WHERE '" + user.Field +"'='" + user._searchStr + "'", connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable dt = new DataTable();
+
+            adapter.SelectCommand = command;
+            adapter.Fill(dt);
+
+            return dt;
+        }
+
         public DataTable Get()
         {
-            MySqlCommand command = new MySqlCommand("SELECT * FROM table", connection);                      
+            MySqlCommand command = new MySqlCommand("SELECT * FROM users_table", connection);                      
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable dt = new DataTable();
 
