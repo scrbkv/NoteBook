@@ -21,5 +21,16 @@ namespace NoteBook
            
 
         }
+
+        public Record(string login, string password, string name, string surname, string secondName, string position, string initials)
+        {
+            Login = login;
+            Password = password;
+            Name = name;
+            Surname = surname;
+            SecondName = secondName;
+            Position = position;
+            Initials = initials;
+        }
     }
 }
