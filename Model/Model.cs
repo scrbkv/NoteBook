@@ -79,6 +79,7 @@ namespace Model
            return true;
         }
 
+        public List<Record> Find()
 
         public List<Record> GetRecords()
         {                        
