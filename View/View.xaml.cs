@@ -63,5 +63,10 @@ namespace View
             this.editWindow.RecordModified += EditWindow_RecordModified;
             this.editWindow.ShowDialog();
         }
+
+        public void Start()
+        {
+            this.ShowDialog();
+        }
     }
 }

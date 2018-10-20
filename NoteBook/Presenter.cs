@@ -23,7 +23,7 @@ namespace NoteBook
             view.SaveUser += View_SaveUser;
             view.UserDeleted += View_UserDeleted;
             view.UserModified += View_UserModified;
-            view.Show();
+            view.Start();
         }
 
         private void Model_DBUpdated(List<Record> data)

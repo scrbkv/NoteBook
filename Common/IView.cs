@@ -18,7 +18,7 @@ namespace NoteBook
 
         void Update(List<Record> records);
         void IncorrectData(ErrorStruct error);
-        void Show();
+        void Start();
     }
 
 }
