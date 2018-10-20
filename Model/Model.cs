@@ -3,28 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NoteBook;
 using MySql.Data.MySqlClient;
-using System.Data;
+using MySql.Data.Types;
 
-namespace NoteBook
+namespace Model
 {
-
-    public delegate void DBUpdatedHandler(List<Record> data);
-    public delegate void IncorrectRecordHandler(ErrorStruct errStruct);
-
-    interface IModel
-    {
-        event DBUpdatedHandler DBUpdated;
-        event IncorrectRecordHandler IncorrectRecord;
-
-        ErrorStruct AddRecord(Record record);
-        bool DeleteRecord(Guid recordUid);
-        ErrorStruct CheckRecord(Record record);
-
-        List<Record> GetRecords();
-    }
-
-    class Model : IModel
+    public class Model : IModel
     {
         private string _connectStr;
 
@@ -38,24 +23,24 @@ namespace NoteBook
 
         public ErrorStruct AddRecord(Record user)
         {
-           /* MySqlConnection connection = new MySqlConnection(_connectStr);
-            
-            connection.Open();                        
+            /* MySqlConnection connection = new MySqlConnection(_connectStr);
 
-            string check = "SELECT name FROM users_table WHERE id = " + user.id;
-            MySqlCommand command = new MySqlCommand(check, connection);
-            command.ExecuteNonQuery();
+             connection.Open();                        
 
-            if (command.ExecuteScalar() != null)            
-                string sql = "INSERT INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";                            
-            else            
-                string sql = "REPLACE INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
-            
+             string check = "SELECT name FROM users_table WHERE id = " + user.id;
+             MySqlCommand command = new MySqlCommand(check, connection);
+             command.ExecuteNonQuery();
 
-            command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();
+             if (command.ExecuteScalar() != null)            
+                 string sql = "INSERT INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";                            
+             else            
+                 string sql = "REPLACE INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
 
-            connection.Close();*/
+
+             command = new MySqlCommand(sql, connection);
+             command.ExecuteNonQuery();
+
+             connection.Close();*/
             return new ErrorStruct();
         }
 

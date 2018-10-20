@@ -6,24 +6,6 @@ using System.Threading.Tasks;
 
 namespace NoteBook
 {
-    public class Record
-    {
-        public Guid Id { get; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string SecondName { get; set; }
-        public string Position { get; set; }
-        public string Initials { get; set; }
-
-        public Record()
-        {
-            Id = Guid.NewGuid();
-
-        }
-    }
-
     public class ErrorStruct
     {
         public enum PassStrength { Low, Medium, High }

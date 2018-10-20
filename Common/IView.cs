@@ -10,7 +10,7 @@ namespace NoteBook
     public delegate void UserDeletedHandler(Guid recordUid);
     public delegate void SaveUserHandler(Record record);
 
-    interface IView
+    public interface IView
     {
         event UserModifiedHandler UserModified;
         event UserDeletedHandler UserDeleted;
@@ -18,6 +18,7 @@ namespace NoteBook
 
         void Update(List<Record> records);
         void IncorrectData(ErrorStruct error);
+        void Show();
     }
 
 }

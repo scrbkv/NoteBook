@@ -11,8 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using NoteBook;
 
-namespace NoteBook
+namespace View
 {
     /// <summary>
     /// Логика взаимодействия для EditWindow.xaml
