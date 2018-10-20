@@ -3,19 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NoteBook;
-using MySql.Data.MySqlClient;
-using MySql.Data.Types;
+using System.Data;
 
-namespace Model
+namespace NoteBook
 {
-    public class Model : IModel
+
+    public delegate void DBUpdatedHandler(List<Record> data);
+    public delegate void IncorrectRecordHandler(ErrorStruct errStruct);
+
+    interface IModel
     {
-        private string _connectStr;
+        event DBUpdatedHandler DBUpdated;
+        event IncorrectRecordHandler IncorrectRecord;
+
+        ErrorStruct AddRecord(Record record);
+        bool DeleteRecord(Record record);
+        ErrorStruct CheckRecord(Record record);
+
+        List<Record> GetRecords();
+    }
+
+    class Model : IModel
+    {        
+        private Connection connection;
 
         public Model()
         {
-            _connectStr = "server=localhost;user=root;database=users_base;password=rootme";
+       
+        }
+
+        public void Connect(string ip, string user, string dataBase, string password)
+        {
+            connection = new Connection();
+            connection.Connect(ip, user, dataBase, password);
         }
 
         public event DBUpdatedHandler DBUpdated;
@@ -23,81 +43,67 @@ namespace Model
 
         public ErrorStruct AddRecord(Record user)
         {
-            /* MySqlConnection connection = new MySqlConnection(_connectStr);
-
-             connection.Open();                        
-
-             string check = "SELECT name FROM users_table WHERE id = " + user.id;
-             MySqlCommand command = new MySqlCommand(check, connection);
-             command.ExecuteNonQuery();
-
-             if (command.ExecuteScalar() != null)            
-                 string sql = "INSERT INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";                            
-             else            
-                 string sql = "REPLACE INTO users_table (id, login, password, name, second_name, surname, initials, position) VALUES (" + user.Id + "'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
-
-
-             command = new MySqlCommand(sql, connection);
-             command.ExecuteNonQuery();
-
-             connection.Close();*/
+            if (!connection.Existing(user))
+                connection.Add(user);
+            else
+                connection.Replace(user);
+           
             return new ErrorStruct();
         }
 
-        public ErrorStruct CheckRecord(Record record)
-        {
-            throw new NotImplementedException();
+        public ErrorStruct CheckRecord(Record user)
+        {          
+            CheckPassword check = new CheckPassword();
+            bool login = true;
+            bool firstName = true;
+            bool secondName = true;
+            bool surname = true;            
+            ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();            
+            if (!char.IsUpper(user.SecondName[0]))
+                firstName = false;
+            if (!char.IsUpper(user.Surname[0]))
+                secondName = false;
+            if (!char.IsUpper(user.Name[0]))
+                firstName = false;
+
+            if (check.CheckPass(user.Password) <= 2)
+                password = ErrorStruct.PassStrength.Low;
+            else if (check.CheckPass(user.Password) == 3 || check.CheckPass(user.Password) == 4)
+                password = ErrorStruct.PassStrength.Medium;
+            else
+                password = ErrorStruct.PassStrength.High;
+
+            login = connection.Existing(user);           
+
+            return new ErrorStruct(login, firstName, secondName, surname, password);
+            //throw new NotImplementedException();
         }
 
-        public bool DeleteRecord(Guid recordUid)
-        {
-            /*MySqlConnection connection = new MySqlConnection(_connectStr);
-            
-            Console.WriteLine("Openning Connection ...");
+        public bool DeleteRecord(Record record)
+        {           
+            try
+            {
+                connection.Delete(record);
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
 
-            connection.Open();             
-
-            string sql = "DELETE FROM users_table WHERE login = \"" + user.Login + "\"";
-
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();
-
-            connection.Close();*/
-            return true;
+           return true;
         }
 
 
         public List<Record> GetRecords()
-        {
-            MySqlConnection connection = new MySqlConnection(_connectStr);
-
-            try
-            {
-                Console.WriteLine("Openning Connection ...");
-
-                connection.Open();
-
-                Console.WriteLine("Connection successful!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
-
-            List<Record> list = new List<Record>();
-            MySqlCommand command = new MySqlCommand("SELECT * FROM table", connection);
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            DataTable dt = new DataTable();
-
-            adapter.SelectCommand = command;
-            adapter.Fill(dt);
+        {                        
+           List<Record> list = new List<Record>();
+           DataTable dt = connection.Get();
 
             foreach (DataRow data in dt.Rows)
             {
-                list.Add(new Record());
+                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString()));
             }
-
-            connection.Close();
+            
             return list;
         }
     }

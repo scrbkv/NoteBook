@@ -38,9 +38,9 @@ namespace NoteBook
                 view.IncorrectData(errStruct);
         }
 
-        private void View_UserDeleted(Guid recordUid)
+        private void View_UserDeleted(Record user)
         {
-            model.DeleteRecord(recordUid);
+            model.DeleteRecord(user);
         }
 
         private void View_SaveUser(Record record)
