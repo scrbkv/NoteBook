@@ -17,7 +17,7 @@ namespace NoteBook
         event IncorrectRecordHandler IncorrectRecord;
 
         ErrorStruct AddRecord(Record record);
-        bool DeleteRecord(Guid recordUid);
+        bool DeleteRecord(Record user);
         ErrorStruct CheckRecord(Record record);
 
         List<Record> GetRecords();

@@ -4,28 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using NoteBook;
 
-namespace NoteBook
+namespace Model
 {
 
-    public delegate void DBUpdatedHandler(List<Record> data);
-    public delegate void IncorrectRecordHandler(ErrorStruct errStruct);
-
-    interface IModel
-    {
-        event DBUpdatedHandler DBUpdated;
-        event IncorrectRecordHandler IncorrectRecord;
-
-        ErrorStruct AddRecord(Record record);
-        bool DeleteRecord(Record record);
-        ErrorStruct CheckRecord(Record record);
-
-        List<Record> GetRecords();
-    }
-
-    class Model : IModel
+    public class Model : IModel
     {        
-        private Connection connection;
+        //private Connection connection;
 
         public Model()
         {
@@ -34,8 +20,8 @@ namespace NoteBook
 
         public void Connect(string ip, string user, string dataBase, string password)
         {
-            connection = new Connection();
-            connection.Connect(ip, user, dataBase, password);
+            //connection = new Connection();
+            //connection.Connect(ip, user, dataBase, password);
         }
 
         public event DBUpdatedHandler DBUpdated;
@@ -43,17 +29,17 @@ namespace NoteBook
 
         public ErrorStruct AddRecord(Record user)
         {
-            if (!connection.Existing(user))
+           /* if (!connection.Existing(user))
                 connection.Add(user);
             else
-                connection.Replace(user);
+                connection.Replace(user);*/
            
             return new ErrorStruct();
         }
 
         public ErrorStruct CheckRecord(Record user)
         {          
-            CheckPassword check = new CheckPassword();
+            //CheckPassword check = new CheckPassword();
             bool login = true;
             bool firstName = true;
             bool secondName = true;
@@ -66,14 +52,14 @@ namespace NoteBook
             if (!char.IsUpper(user.Name[0]))
                 firstName = false;
 
-            if (check.CheckPass(user.Password) <= 2)
+            /*if (check.CheckPass(user.Password) <= 2)
                 password = ErrorStruct.PassStrength.Low;
             else if (check.CheckPass(user.Password) == 3 || check.CheckPass(user.Password) == 4)
                 password = ErrorStruct.PassStrength.Medium;
             else
-                password = ErrorStruct.PassStrength.High;
+                password = ErrorStruct.PassStrength.High;*/
 
-            login = connection.Existing(user);           
+           // login = connection.Existing(user);           
 
             return new ErrorStruct(login, firstName, secondName, surname, password);
             //throw new NotImplementedException();
@@ -83,7 +69,7 @@ namespace NoteBook
         {           
             try
             {
-                connection.Delete(record);
+               // connection.Delete(record);
             }
             catch(Exception e)
             {
@@ -97,14 +83,19 @@ namespace NoteBook
         public List<Record> GetRecords()
         {                        
            List<Record> list = new List<Record>();
-           DataTable dt = connection.Get();
+           /*DataTable dt = connection.Get();
 
             foreach (DataRow data in dt.Rows)
             {
                 list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString()));
-            }
+            }*/
             
             return list;
+        }
+
+        public bool DeleteRecord(Guid recordUid)
+        {
+            throw new NotImplementedException();
         }
     }
 }

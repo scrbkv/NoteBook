@@ -13,5 +13,9 @@ namespace NoteBook
     /// </summary>
     public partial class App : Application
     {
+        public static void Main()
+        {
+            Presenter presenter = new Presenter();
+        }
     }
 }
