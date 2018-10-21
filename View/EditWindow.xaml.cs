@@ -15,9 +15,6 @@ using NoteBook;
 
 namespace View
 {
-    /// <summary>
-    /// Логика взаимодействия для EditWindow.xaml
-    /// </summary>
     public delegate void ApplyChangesHandler(Record record);
     public delegate void RecordModifiedHandler(Record record);
     public partial class EditWindow : Window
@@ -29,7 +26,6 @@ namespace View
 
         public EditWindow(Record user)
         {
-            record = user;
             InitializeComponent();
             this.Surname.Text = user.Surname == "" ? "Фамилия" : user.Surname;
             this.FirstName.Text = user.Name == "" ? "Имя" : user.Name;
@@ -37,6 +33,7 @@ namespace View
             this.Position.Text = user.Position == "" ? "Должность" : user.Position;
             this.Login.Text = user.Login == "" ? "Логин" : user.Login;
             this.Password.Text = user.Password == "" ? "Пароль" : "<Без изменений>";
+            record = user;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

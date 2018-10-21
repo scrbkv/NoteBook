@@ -80,6 +80,9 @@ namespace Model
         }
 
         public List<Record> Find()
+        {
+            return new List<Record>();
+        }
 
         public List<Record> GetRecords()
         {                        
@@ -88,7 +91,7 @@ namespace Model
 
             foreach (DataRow data in dt.Rows)
             {
-                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString(), data[6].ToString()));
+                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString()));
             }
             
             return list;

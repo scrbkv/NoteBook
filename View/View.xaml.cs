@@ -16,14 +16,16 @@ using NoteBook;
 
 namespace View
 {
-    public partial class View : Window, IView
+    public partial class MainWindow : Window, IView
     {
         public event UserModifiedHandler UserModified;
         public event UserDeletedHandler UserDeleted;
         public event SaveUserHandler SaveUser;
+        public event SearchHandler Search;
+
         private EditWindow editWindow;
 
-        public View()
+        public MainWindow()
         {
             InitializeComponent();
         }
@@ -50,7 +52,7 @@ namespace View
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            editWindow = new EditWindow(new Record());
+            this.editWindow = new EditWindow(new Record());
             this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
             this.editWindow.RecordModified += EditWindow_RecordModified;
             editWindow.ShowDialog();
@@ -64,9 +66,48 @@ namespace View
             this.editWindow.ShowDialog();
         }
 
-        public void Start()
+        public void StartApp()
         {
             this.ShowDialog();
+        }
+
+        private void Records_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.Records.SelectedIndex != -1)
+            {
+                this.EditButton.IsEnabled = true;
+                this.DeleteButton.IsEnabled = true;
+            }
+            else
+            {
+                this.EditButton.IsEnabled = false;
+                this.DeleteButton.IsEnabled = false;
+            }
+        }
+
+        private void LoginSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.Search(new SearchStruct(SearchStruct.SubjectEnum.Login, LoginSearch.Text));
+        }
+
+        private void NameSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.Search(new SearchStruct(SearchStruct.SubjectEnum.Name, NameSearch.Text));
+        }
+
+        private void SurnameSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.Search(new SearchStruct(SearchStruct.SubjectEnum.Surname, SurnameSearch.Text));
+        }
+
+        private void PositionSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.Search(new SearchStruct(SearchStruct.SubjectEnum.Position, PositionSearch.Text));
+        }
+
+        private void Records_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            
         }
     }
 }

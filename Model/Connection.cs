@@ -46,14 +46,14 @@ namespace NoteBook
 
         public void Add(Record user)
         {
-            string sql = "INSERT INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
+            string sql = "INSERT INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
         }
 
         public void Replace(Record user)
         {
-            string sql = "REPLACE INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Initials + "','" + user.Position + "')";
+            string sql = "REPLACE INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
         }

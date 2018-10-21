@@ -4,9 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace NoteBook
 {
-    class SearchStruct
+    public class SearchStruct
     {
+        public enum SubjectEnum { Login, Name, Surname, Position};
+        public SubjectEnum Subject { get; }
+        public string Text { get; }
+        public SearchStruct(SubjectEnum subject, string text)
+        {
+            Subject = subject;
+            Text = text;
+        }
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using View;
 
 namespace NoteBook
 {
@@ -16,14 +15,14 @@ namespace NoteBook
         public Presenter()
         {
             this.model = new Model.Model();
-            this.view = new View.View();
+            this.view = new View.MainWindow();
 
             model.IncorrectRecord += Model_IncorrectRecord;
             model.DBUpdated += Model_DBUpdated;
             view.SaveUser += View_SaveUser;
             view.UserDeleted += View_UserDeleted;
             view.UserModified += View_UserModified;
-            view.Start();
+            view.StartApp();
         }
 
         private void Model_DBUpdated(List<Record> data)

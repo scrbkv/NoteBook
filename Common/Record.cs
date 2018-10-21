@@ -14,7 +14,6 @@ namespace NoteBook
         public string Surname { get; set; }
         public string SecondName { get; set; }
         public string Position { get; set; }
-        public string Initials { get; set; }
 
         public Record()
         {
@@ -22,7 +21,7 @@ namespace NoteBook
 
         }
 
-        public Record(string login, string password, string name, string surname, string secondName, string position, string initials)
+        public Record(string login, string password, string name, string surname, string secondName, string position)
         {
             Login = login;
             Password = password;
@@ -30,7 +29,6 @@ namespace NoteBook
             Surname = surname;
             SecondName = secondName;
             Position = position;
-            Initials = initials;
         }
     }
 }
