@@ -79,9 +79,17 @@ namespace Model
            return true;
         }
 
-        public List<Record> Find()
+        public List<Record> GetRecords(SearchStruct obj)
         {
-            return new List<Record>();
+            List<Record> list = new List<Record>();
+            DataTable dt = connection.Find(obj);
+
+            foreach (DataRow data in dt.Rows)
+            {
+                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString(), data[6].ToString()));
+            }
+
+            return list;
         }
 
         public List<Record> GetRecords()
@@ -91,7 +99,7 @@ namespace Model
 
             foreach (DataRow data in dt.Rows)
             {
-                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString()));
+                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString(), data[6].ToString()));
             }
             
             return list;
