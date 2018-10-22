@@ -32,21 +32,21 @@ namespace NoteBook
             connection.Close();
         }
 
-        public bool Existing(Record user)
+        public bool NonExisting(Record user)
         {
             string check = "SELECT name FROM users_table WHERE login = \"" + user.Login + "\"";
             MySqlCommand command = new MySqlCommand(check, connection);
             command.ExecuteNonQuery();
 
             if (command.ExecuteScalar() != null)
-                return true;
+                return false;
 
-            return false;
+            return true;
         }
 
         public void Add(Record user)
         {
-            string sql = "INSERT INTO users_table (login, password, name, second_name, surname, initials, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
+            string sql = "INSERT INTO users_table (login, password, name, second_name, surname, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
         }

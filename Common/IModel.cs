@@ -19,6 +19,7 @@ namespace NoteBook
         ErrorStruct AddRecord(Record record);
         bool DeleteRecord(Record user);
         ErrorStruct CheckRecord(Record record);
+        void Connect(string ip, string user, string dataBase, string password);
 
         List<Record> GetRecords();
         List<Record> GetRecords(SearchStruct search);

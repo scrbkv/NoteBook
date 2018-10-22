@@ -17,8 +17,12 @@ namespace NoteBook
 
         public Record()
         {
-           
-
+            Login = "";
+            Password = "";
+            Name = "";
+            Surname = "";
+            SecondName = "";
+            Position = "";
         }
 
         public Record(string login, string password, string name, string surname, string secondName, string position)

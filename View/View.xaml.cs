@@ -22,12 +22,15 @@ namespace View
         public event UserDeletedHandler UserDeleted;
         public event SaveUserHandler SaveUser;
         public event SearchHandler Search;
+        public event NeedToUpdateHandler NeedToUpdate;
 
         private EditWindow editWindow;
 
         public MainWindow()
         {
             InitializeComponent();
+            this.Records.CanUserAddRows = false;
+            this.Records.IsReadOnly = true;
         }
 
         private void EditWindow_RecordModified(Record record)
@@ -68,6 +71,7 @@ namespace View
 
         public void StartApp()
         {
+            this.NeedToUpdate();
             this.ShowDialog();
         }
 
@@ -103,6 +107,12 @@ namespace View
         private void PositionSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.Search(new SearchStruct(SearchStruct.SubjectEnum.Position, PositionSearch.Text));
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.Records.SelectedIndex != -1)
+                this.UserDeleted(this.Records.SelectedItem as Record);
         }
     }
 }

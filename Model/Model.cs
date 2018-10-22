@@ -15,12 +15,12 @@ namespace Model
 
         public Model()
         {
-       
+            connection = new Connection();
+            connection.Connect("localhost", "root", "users_base", "rootme");
         }
 
         public void Connect(string ip, string user, string dataBase, string password)
         {
-            connection = new Connection();
             connection.Connect(ip, user, dataBase, password);
         }
 
@@ -29,37 +29,43 @@ namespace Model
 
         public ErrorStruct AddRecord(Record user)
         {
-            /*if (!connection.Existing(user))
+            ErrorStruct check = CheckRecord(user);            
+
+            if (check == true)
                 connection.Add(user);
-            else
-                connection.Replace(user);*/
-           
-            return new ErrorStruct();
+            //else
+            //    connection.Replace(user);
+
+            this.DBUpdated(GetRecords());
+            return check;
         }
 
         public ErrorStruct CheckRecord(Record user)
-        {          
+        {                
             CheckPassword check = new CheckPassword();
             bool login = true;
             bool firstName = true;
             bool secondName = true;
             bool surname = true;            
             ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();            
-            if (!char.IsUpper(user.SecondName[0]))
+            if (user.SecondName == "" || !char.IsUpper(user.SecondName[0]))
                 firstName = false;
-            if (!char.IsUpper(user.Surname[0]))
+            if (user.Surname == "" || !char.IsUpper(user.Surname[0]))
                 secondName = false;
-            if (!char.IsUpper(user.Name[0]))
+            if (user.Name == "" || !char.IsUpper(user.Name[0]))
                 firstName = false;
 
-            if (check.CheckPass(user.Password) <= 2)
+            if (user.Password == "" || check.CheckPass(user.Password) <= 2)
                 password = ErrorStruct.PassStrength.Low;
             else if (check.CheckPass(user.Password) == 3 || check.CheckPass(user.Password) == 4)
                 password = ErrorStruct.PassStrength.Medium;
             else
                 password = ErrorStruct.PassStrength.High;
 
-            login = connection.Existing(user);           
+            if (user.Login == "")
+                login = false;
+            else
+                login = connection.NonExisting(user);                        
 
             return new ErrorStruct(login, firstName, secondName, surname, password);
             //throw new NotImplementedException();
@@ -76,6 +82,7 @@ namespace Model
                 return false;
             }
 
+            this.DBUpdated(GetRecords());
            return true;
         }
 
@@ -103,11 +110,6 @@ namespace Model
             }
             
             return list;
-        }
-
-        public bool DeleteRecord(Guid recordUid)
-        {
-            throw new NotImplementedException();
         }
     }
 }
