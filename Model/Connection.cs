@@ -67,7 +67,7 @@ namespace NoteBook
 
         public DataTable Find(SearchStruct user)
         {
-            MySqlCommand command = new MySqlCommand("SELECT'" + user.Field + "'FROM users_table WHERE '" + user.Field +"'='" + user._searchStr + "'", connection);
+            MySqlCommand command = new MySqlCommand("SELECT'" + user.Subject + "'FROM users_table WHERE '" + user.Subject +"'='" + user.Text + "'", connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable dt = new DataTable();
 

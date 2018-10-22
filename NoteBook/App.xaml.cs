@@ -8,12 +8,9 @@ using System.Windows;
 
 namespace NoteBook
 {
-    /// <summary>
-    /// Логика взаимодействия для App.xaml
-    /// </summary>
     public partial class App : Application
     {
-        [STAThreadAttribute]
+        [STAThread]
         public static void Main()
         {
             Presenter presenter = new Presenter();

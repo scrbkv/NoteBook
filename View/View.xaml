@@ -11,7 +11,7 @@
         <Button x:Name="AddButton" Content="Добавить" HorizontalAlignment="Left" Margin="487,10,0,0" VerticalAlignment="Top" Width="112" Height="37" Click="AddButton_Click"/>
         <Button x:Name="EditButton" Content="Изменить" HorizontalAlignment="Left" Margin="487,52,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" RenderTransformOrigin="1.268,0.541"/>
         <Button x:Name="DeleteButton" Content="Удалить" HorizontalAlignment="Left" Margin="487,94,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False"/>
-        <DataGrid x:Name="Records" HorizontalAlignment="Left" Height="271" Margin="10,38,0,0" VerticalAlignment="Top" Width="472" SelectionChanged="Records_SelectionChanged" MouseDoubleClick="Records_MouseDoubleClick" AutoGenerateColumns="False" MinColumnWidth="100">
+        <DataGrid x:Name="Records" HorizontalAlignment="Left" Height="271" Margin="10,38,0,0" VerticalAlignment="Top" Width="472" SelectionChanged="Records_SelectionChanged" MouseDoubleClick="Records_MouseDoubleClick" AutoGenerateColumns="False" MinColumnWidth="100" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTextColumn/>
                 <DataGridTextColumn/>

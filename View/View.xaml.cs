@@ -104,10 +104,5 @@ namespace View
         {
             this.Search(new SearchStruct(SearchStruct.SubjectEnum.Position, PositionSearch.Text));
         }
-
-        private void Records_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            
-        }
     }
 }

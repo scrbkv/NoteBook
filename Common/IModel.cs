@@ -21,6 +21,7 @@ namespace NoteBook
         ErrorStruct CheckRecord(Record record);
 
         List<Record> GetRecords();
+        List<Record> GetRecords(SearchStruct search);
     }
 
    

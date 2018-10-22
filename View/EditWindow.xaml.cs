@@ -19,7 +19,7 @@ namespace View
     public delegate void RecordModifiedHandler(Record record);
     public partial class EditWindow : Window
     {
-        private Record record;
+        private Record record = new Record();
 
         public event ApplyChangesHandler ApplyChanges;
         public event RecordModifiedHandler RecordModified;
@@ -43,14 +43,8 @@ namespace View
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            record.Name = this.FirstName.Text;
-            record.Surname = this.Surname.Text;
-            record.SecondName = this.SecondName.Text;
-            record.Position = this.Position.Text;
-            record.Login = this.Login.Text;
-            if (this.Password.Text != "<Без изменений>")
-                record.Password = this.Password.Text;
             this.ApplyChanges(record);
+            this.Close();
         }
 
         public void IncorrectData(ErrorStruct errStruct)
@@ -90,9 +84,8 @@ namespace View
             record.Login = this.Login.Text;
             if (this.Password.Text != "<Без изменений>")
                 record.Password = this.Password.Text;
-            this.ApplyChanges(record);
 
-            this.RecordModified(this.record);
+            //this.RecordModified(this.record);
         }
     }
 }
