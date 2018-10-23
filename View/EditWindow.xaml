@@ -7,24 +7,47 @@
         mc:Ignorable="d"
         Title="Редактирование пользователя" Height="300" Width="400">
     <Grid x:Name="EditField">
-        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Height="23" Margin="10,53,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="Surname" HorizontalAlignment="Left" Height="23" Margin="10,25,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="SecondName" HorizontalAlignment="Left" Height="23" Margin="10,81,0,0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="Position" HorizontalAlignment="Left" Height="23" Margin="10,123,0,0" TextWrapping="Wrap" Text="Должность" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="Login" HorizontalAlignment="Left" Height="23" Margin="10,170,0,0" TextWrapping="Wrap" Text="Логин" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="10,198,0,0" TextWrapping="Wrap" Text="Пароль" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" TextChanged="TextChanged"/>
-        <Button x:Name="Save" Content="Сохранить" Grid.Column="1" HorizontalAlignment="Left" Margin="108,237,0,0" VerticalAlignment="Top" Width="73" Height="22" Click="Save_Click"/>
-        <Button x:Name="Cancel" Content="Отменить" Grid.Column="1" HorizontalAlignment="Left" Margin="28,237,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="Cancel_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="69*"/>
+            <ColumnDefinition Width="323*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Height="23" Margin="10,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Имя" TextChanged="TextChanged"/>
+        <Popup x:Name="FirstNamePopUp" StaysOpen="False" Placement="Absolute" MaxWidth="180"
+         AllowsTransparency="True"  >
+            <TextBlock TextWrapping="Wrap" Width="170" Background="LightPink" Opacity="0.8" Padding="0" Margin="20,-85,0,60" >
+            Имя должно начинаться с заглавной буквы!
+            </TextBlock>
+        </Popup>
+        <TextBox x:Name="Surname" HorizontalAlignment="Left" Height="23" Margin="10,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Фамилия" TextChanged="TextChanged"/>
+        <Popup x:Name="SurnamePopUp" StaysOpen="False" Placement="Absolute" MaxWidth="180"
+         AllowsTransparency="True"  >
+            <TextBlock TextWrapping="Wrap" Width="170" Background="LightPink" Opacity="0.8" Margin="20,-115,0,110" >
+            Фамилия должна начинаться с заглавной буквы!
+            </TextBlock>
+        </Popup>
+        <TextBox x:Name="SecondName" HorizontalAlignment="Left" Height="23" Margin="10,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Отчество" TextChanged="TextChanged"/>
+        <Popup x:Name="SecondNamePopUp" StaysOpen="False" Placement="Absolute" MaxWidth="180"
+         AllowsTransparency="True"  >
+            <TextBlock TextWrapping="Wrap" Width="170" Background="LightPink" Opacity="0.8" Margin="15,-60,0,30" >
+            Отчество должно начинаться с заглавной буквы!
+            </TextBlock>
+        </Popup>
+        <TextBox x:Name="Position" HorizontalAlignment="Left" Height="23" Margin="10,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Должность" TextChanged="TextChanged"/>
+        <TextBox x:Name="Login" HorizontalAlignment="Left" Height="23" Margin="10,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Логин" TextChanged="TextChanged"/>
+        <Popup x:Name="LoginPopUp" StaysOpen="False" Placement="Absolute" MaxWidth="180"
+         AllowsTransparency="True"  >
+            <TextBlock TextWrapping="Wrap" Width="170" Background="LightPink" Opacity="0.8" Padding="30,0,0,0" RenderTransformOrigin="0.483,0.531" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20,30,0,0" >
+            Это имя пользователя уже занято!
+            </TextBlock>
+        </Popup>
+        <TextBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="10,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" TextChanged="TextChanged" ToolTip="Пароль"/>
+        <Button x:Name="Save" Content="Сохранить" Grid.Column="1" HorizontalAlignment="Left" Margin="39,237,0,0" VerticalAlignment="Top" Width="73" Height="22" Click="Save_Click"/>
+        <Button x:Name="Cancel" Content="Отменить" HorizontalAlignment="Left" Margin="28,237,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="Cancel_Click" Grid.ColumnSpan="2"/>
         <ProgressBar x:Name="PWStrength" HorizontalAlignment="Left" Height="4" Margin="10,226,0,0" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2">
             <ProgressBar.Effect>
                 <BlurEffect KernelType="Box"/>
             </ProgressBar.Effect>
         </ProgressBar>
-        <Label x:Name="IncorrectSurnameLabel" Content="Фамилия должна начинаться &#xD;&#xA;с заглавной буквы!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.149,0.269" Height="39" Width="166" FontSize="9" Visibility="Hidden"/>
-        <Label x:Name="IncorrectFirstNameLabel" Content="Имя должно начинаться &#xA;с заглавной буквы!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,52,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.149,0.269" Height="37" Width="166" FontSize="9" Visibility="Hidden"/>
-        <Label x:Name="IncorrectSecondNameLabel" Content="Отчество должно начинаться &#xA;с заглавной буквы!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.149,0.269" Height="39" Width="166" FontSize="9" Visibility="Hidden"/>
-        <Label x:Name="IncorrectLoginLabel" Content="Это имя пользователя уже занято!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,170,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.149,0.269" Height="22" Width="166" FontSize="9" Visibility="Hidden"/>
-        <Label x:Name="IncorrectPasswordLabel" Content="Пароль не соответствует требованиям!" Grid.Column="1" HorizontalAlignment="Left" Margin="15,197,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
 
     </Grid>
 </Window>

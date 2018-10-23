@@ -88,6 +88,9 @@ namespace Model
 
         public List<Record> GetRecords(SearchStruct obj)
         {
+            if (obj.Text == "")
+                return GetRecords();
+
             List<Record> list = new List<Record>();
             DataTable dt = connection.Find(obj);
 

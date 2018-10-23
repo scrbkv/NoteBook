@@ -19,10 +19,10 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <TextBox x:Name="LoginSearch" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" TextChanged="LoginSearch_TextChanged"/>
-        <TextBox x:Name="NameSearch" HorizontalAlignment="Left" Height="23" Margin="110,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" TextChanged="NameSearch_TextChanged"/>
-        <TextBox x:Name="SurnameSearch" HorizontalAlignment="Left" Height="23" Margin="210,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" TextChanged="SurnameSearch_TextChanged"/>
-        <TextBox x:Name="PositionSearch" HorizontalAlignment="Left" Height="23" Margin="310,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" TextChanged="PositionSearch_TextChanged"/>
+        <TextBox x:Name="LoginSearch" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" TextChanged="LoginSearch_TextChanged" ToolTip="Логин"/>
+        <TextBox x:Name="NameSearch" HorizontalAlignment="Left" Height="23" Margin="110,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" TextChanged="NameSearch_TextChanged" ToolTip="Имя"/>
+        <TextBox x:Name="SurnameSearch" HorizontalAlignment="Left" Height="23" Margin="210,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" TextChanged="SurnameSearch_TextChanged" ToolTip="Фамилия"/>
+        <TextBox x:Name="PositionSearch" HorizontalAlignment="Left" Height="23" Margin="310,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" TextChanged="PositionSearch_TextChanged" ToolTip="Должность"/>
 
     </Grid>
 </Window>

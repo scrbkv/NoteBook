@@ -45,8 +45,7 @@ namespace NoteBook
         private void View_UserModified(Record record)
         {
             var errStruct = model.CheckRecord(record);
-            if (errStruct == false)
-                view.IncorrectData(errStruct);
+            view.IncorrectData(errStruct);
         }
 
         private void View_UserDeleted(Record user)

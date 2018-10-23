@@ -27,13 +27,13 @@ namespace View
         public EditWindow(Record user)
         {
             InitializeComponent();
-            this.Surname.Text = user.Surname == "" ? "Фамилия" : user.Surname;
-            this.FirstName.Text = user.Name == "" ? "Имя" : user.Name;
-            this.SecondName.Text = user.SecondName == "" ? "Отчество" : user.SecondName;
-            this.Position.Text = user.Position == "" ? "Должность" : user.Position;
-            this.Login.Text = user.Login == "" ? "Логин" : user.Login;
-            this.Password.Text = user.Password == "" ? "Пароль" : "<Без изменений>";
             record = user;
+            this.Surname.Text = user.Surname;
+            this.FirstName.Text = user.Name;
+            this.SecondName.Text = user.SecondName;
+            this.Position.Text = user.Position;
+            this.Login.Text = user.Login;
+            this.Password.Text = user.Password;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -49,17 +49,10 @@ namespace View
 
         public void IncorrectData(ErrorStruct errStruct)
         {
-            if (errStruct.IncorrectFirstName)
-                this.IncorrectFirstNameLabel.Visibility = Visibility.Visible;
-
-            if (errStruct.IncorrectSecondName)
-                this.IncorrectSecondNameLabel.Visibility = Visibility.Visible;
-
-            if (errStruct.IncorrectSurname)
-                this.IncorrectSurnameLabel.Visibility = Visibility.Visible;
-
-            if (errStruct.IncorrectLogin)
-                this.IncorrectLoginLabel.Visibility = Visibility.Visible;
+            this.FirstNamePopUp.IsOpen = errStruct.IncorrectFirstName;
+            this.SecondNamePopUp.IsOpen = errStruct.IncorrectSecondName;
+            this.SurnamePopUp.IsOpen = errStruct.IncorrectSurname;
+            this.LoginPopUp.IsOpen = errStruct.IncorrectLogin;
 
             switch (errStruct.PWStrength)
             {
@@ -82,10 +75,16 @@ namespace View
             record.SecondName = this.SecondName.Text;
             record.Position = this.Position.Text;
             record.Login = this.Login.Text;
-            if (this.Password.Text != "<Без изменений>")
-                record.Password = this.Password.Text;
+            record.Password = this.Password.Text;
 
-            //this.RecordModified(this.record);
+            try
+            {
+                this.RecordModified(this.record);
+            }
+            catch(Exception)
+            {
+
+            }
         }
     }
 }
