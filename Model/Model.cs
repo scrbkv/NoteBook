@@ -16,7 +16,7 @@ namespace Model
         public Model()
         {
             connection = new Connection();
-            connection.Connect("localhost", "root", "users_base", "rootme");
+            connection.Connect("localhost", "root", "testdb", "rootme");
         }
 
         public void Connect(string ip, string user, string dataBase, string password)
@@ -33,8 +33,8 @@ namespace Model
 
             if (check == true)
                 connection.Add(user);
-            //else
-            //    connection.Replace(user);
+            else
+                connection.Replace(user);
 
             this.DBUpdated(GetRecords());
             return check;
@@ -86,17 +86,17 @@ namespace Model
            return true;
         }
 
-        public List<Record> GetRecords(SearchStruct obj)
+        public List<Record> GetRecords(string str)
         {
-            if (obj.Text == "")
+            if (str == "")
                 return GetRecords();
 
             List<Record> list = new List<Record>();
-            DataTable dt = connection.Find(obj);
+            DataTable dt = connection.Find(str);
 
             foreach (DataRow data in dt.Rows)
             {
-                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString()));
+                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), (int)data[5]));
             }
 
             return list;
@@ -109,9 +109,22 @@ namespace Model
 
             foreach (DataRow data in dt.Rows)
             {
-                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), data[5].ToString()));
+                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), (int)data[5]));
             }
             
+            return list;
+        }
+
+        public List<string> GetPositions()
+        {            
+            List<string> list = new List<string>();
+            DataTable dt = connection.GetPos();
+
+            foreach (DataRow data in dt.Rows)
+            {
+                list.Add(data[1].ToString());
+            }
+
             return list;
         }
     }

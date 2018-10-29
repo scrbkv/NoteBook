@@ -22,7 +22,7 @@ namespace NoteBook
         void Connect(string ip, string user, string dataBase, string password);
 
         List<Record> GetRecords();
-        List<Record> GetRecords(SearchStruct search);
+        List<Record> GetRecords(string str);
     }
 
    

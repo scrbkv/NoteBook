@@ -8,7 +8,7 @@ namespace NoteBook
 {
     public class SearchStruct
     {
-        public enum SubjectEnum { Login, Name, Surname, Position};
+        public enum SubjectEnum { login, name, surname, second_name, position};
         public SubjectEnum Subject { get; }
         public string Text { get; }
         public SearchStruct(SubjectEnum subject, string text)

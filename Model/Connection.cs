@@ -34,7 +34,7 @@ namespace NoteBook
 
         public bool NonExisting(Record user)
         {
-            string check = "SELECT name FROM users_table WHERE login = \"" + user.Login + "\"";
+            string check = "SELECT name FROM user WHERE login = \"" + user.Login + "\"";
             MySqlCommand command = new MySqlCommand(check, connection);
             command.ExecuteNonQuery();
 
@@ -46,45 +46,68 @@ namespace NoteBook
 
         public void Add(Record user)
         {
-            string sql = "INSERT INTO users_table (login, password, name, second_name, surname, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
+            string sql = "INSERT INTO user (login, password, name, second_name, surname, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
             MySqlCommand command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();
+            command.ExecuteNonQuery();            
         }
 
         public void Replace(Record user)
         {
-            string sql = "REPLACE INTO users_table (login, password, name, second_name, surname, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
+            string sql = "REPLACE INTO user (login, password, name, second_name, surname, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
         }
 
         public void Delete(Record user)
         {
-            string sql = "DELETE FROM users_table WHERE login = \"" + user.Login + "\"";
+            string sql = "DELETE FROM user WHERE login = \"" + user.Login + "\"";
             MySqlCommand command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();
+            command.ExecuteNonQuery();            
         }
 
-        public DataTable Find(SearchStruct user)
+        public DataTable Find(string str)
         {
-            MySqlCommand command = new MySqlCommand("SELECT'" + user.Subject + "'FROM users_table WHERE '" + user.Subject +"'='" + user.Text + "'", connection);
+            MySqlCommand command = new MySqlCommand("SELECT * FROM user WHERE * LIKE '%" + str + "%'", connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();           
 
             adapter.SelectCommand = command;
             adapter.Fill(dt);
+            command = new MySqlCommand("SELECT positionID FROM positions WHERE position LIKE '%" + str + "%'", connection);
+            adapter.SelectCommand = command;
+            adapter.Fill(dt1);
 
+            dt.Columns.Add("position", typeof(string));
+
+            foreach (DataRow row in dt.Rows)
+            {
+                command = new MySqlCommand("SELECT position_id FROM user_positions WHERE login_id ='" + row[0].ToString() + "'", connection);
+                int pos_id = (int)command.ExecuteScalar();
+                command = new MySqlCommand("SELECT position FROM positions WHERE positionID ='" + pos_id + "'", connection);
+                row[5] = command.ExecuteScalar().ToString();
+            }
+
+            return dt;
+        }
+
+        public DataTable GetPos()
+        {
+            MySqlCommand command = new MySqlCommand("SELECT * FROM positions", connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable dt = new DataTable();
+           
             return dt;
         }
 
         public DataTable Get()
         {
-            MySqlCommand command = new MySqlCommand("SELECT * FROM users_table", connection);                      
+            MySqlCommand command = new MySqlCommand("SELECT * FROM user", connection);                      
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable dt = new DataTable();
 
             adapter.SelectCommand = command;
-            adapter.Fill(dt);
+            adapter.Fill(dt);           
 
             return dt;
         }

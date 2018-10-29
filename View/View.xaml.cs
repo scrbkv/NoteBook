@@ -30,7 +30,6 @@ namespace View
         {
             InitializeComponent();
             this.Records.CanUserAddRows = false;
-            this.Records.IsReadOnly = true;
         }
 
         private void EditWindow_RecordModified(Record record)
@@ -61,14 +60,6 @@ namespace View
             editWindow.ShowDialog();
         }
 
-        private void Records_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            this.editWindow = new EditWindow(this.Records.SelectedItem as Record);
-            this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
-            this.editWindow.RecordModified += EditWindow_RecordModified;
-            this.editWindow.ShowDialog();
-        }
-
         public void StartApp()
         {
             this.NeedToUpdate();
@@ -91,28 +82,46 @@ namespace View
 
         private void LoginSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.Search(new SearchStruct(SearchStruct.SubjectEnum.Login, LoginSearch.Text));
+            this.Search(new SearchStruct(SearchStruct.SubjectEnum.login, LoginSearch.Text));
         }
 
         private void NameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.Search(new SearchStruct(SearchStruct.SubjectEnum.Name, NameSearch.Text));
+            this.Search(new SearchStruct(SearchStruct.SubjectEnum.name, NameSearch.Text));
         }
 
         private void SurnameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.Search(new SearchStruct(SearchStruct.SubjectEnum.Surname, SurnameSearch.Text));
+            this.Search(new SearchStruct(SearchStruct.SubjectEnum.surname, SurnameSearch.Text));
         }
 
         private void PositionSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.Search(new SearchStruct(SearchStruct.SubjectEnum.Position, PositionSearch.Text));
+            this.Search(new SearchStruct(SearchStruct.SubjectEnum.position, PositionSearch.Text));
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.Records.SelectedIndex != -1)
                 this.UserDeleted(this.Records.SelectedItem as Record);
+        }
+
+        private void MenuItem_Edit(object sender, RoutedEventArgs e)
+        {
+            this.editWindow = new EditWindow(this.Records.Items[this.Records.SelectedIndex] as Record);
+            this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
+            this.editWindow.RecordModified += EditWindow_RecordModified;
+            this.editWindow.ShowDialog();
+        }
+
+        private void MenuItem_Delete(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void Records_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            this.SaveUser(this.Records.Items[this.Records.SelectedIndex] as Record);
         }
     }
 }
