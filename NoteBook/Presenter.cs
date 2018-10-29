@@ -22,7 +22,7 @@ namespace NoteBook
             view.SaveUser += View_SaveUser;
             view.UserDeleted += View_UserDeleted;
             view.UserModified += View_UserModified;
-            view.Search += View_Search;
+            //view.Search += View_Search;
             view.NeedToUpdate += View_NeedToUpdate;
             view.StartApp();
         }
@@ -32,10 +32,10 @@ namespace NoteBook
             view.Update(model.GetRecords());
         }
 
-        private void View_Search(SearchStruct searchStruct)
-        {
-            view.Update(model.GetRecords(searchStruct));
-        }
+        //private void View_Search(SearchStruct searchStruct)
+        //{
+        //    view.Update(model.GetRecords(searchStruct));
+        //}
 
         private void Model_DBUpdated(List<Record> data)
         {

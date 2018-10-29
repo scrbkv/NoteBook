@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Security.Cryptography;
 using NoteBook;
 
 namespace Model
@@ -29,15 +30,37 @@ namespace Model
 
         public ErrorStruct AddRecord(Record user)
         {
-            ErrorStruct check = CheckRecord(user);            
+            ErrorStruct check = CheckRecord(user);
 
             if (check == true)
+            {
+                for (int i = 0; i < 1000; ++i)
+                {
+                    user.Password = GetHashString(user.Password);
+                }
                 connection.Add(user);
+            }
             else
                 connection.Replace(user);
 
             this.DBUpdated(GetRecords());
             return check;
+        }
+
+        private string GetHashString(string str)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(str);
+
+            MD5CryptoServiceProvider CSP = new MD5CryptoServiceProvider();
+
+            byte[] byteHash = CSP.ComputeHash(bytes);
+
+            string hash = string.Empty;
+
+            foreach (byte b in byteHash)
+                hash += string.Format("{0:x2}", b);
+
+            return hash;
         }
 
         public ErrorStruct CheckRecord(Record user)

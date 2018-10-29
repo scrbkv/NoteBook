@@ -31,7 +31,7 @@ namespace View
             this.Surname.Text = user.Surname;
             this.FirstName.Text = user.Name;
             this.SecondName.Text = user.SecondName;
-            this.Position.Text = user.Position;
+            //this.Position.Text = user.Position;
             this.Login.Text = user.Login;
             this.Password.Text = user.Password;
         }
@@ -73,7 +73,7 @@ namespace View
             record.Name = this.FirstName.Text;
             record.Surname = this.Surname.Text;
             record.SecondName = this.SecondName.Text;
-            record.Position = this.Position.Text;
+            //record.Position = this.Position.Text;
             record.Login = this.Login.Text;
             record.Password = this.Password.Text;
 
