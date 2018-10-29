@@ -24,6 +24,7 @@ namespace NoteBook
             view.UserModified += View_UserModified;
             view.Search += View_Search;
             view.NeedToUpdate += View_NeedToUpdate;
+            view.UpdatePositions(model.GetPositions());
             view.StartApp();
         }
 
@@ -32,9 +33,9 @@ namespace NoteBook
             view.Update(model.GetRecords());
         }
 
-        private void View_Search(SearchStruct searchStruct)
+        private void View_Search(string text)
         {
-            view.Update(model.GetRecords(searchStruct));
+            view.Update(model.GetRecords(text));
         }
 
         private void Model_DBUpdated(List<Record> data)

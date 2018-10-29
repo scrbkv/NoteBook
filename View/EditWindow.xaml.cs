@@ -20,18 +20,21 @@ namespace View
     public partial class EditWindow : Window
     {
         private Record record = new Record();
+        private List<string> positions;
 
         public event ApplyChangesHandler ApplyChanges;
         public event RecordModifiedHandler RecordModified;
 
-        public EditWindow(Record user)
+        public EditWindow(Record user, List<string> positions)
         {
             InitializeComponent();
             record = user;
+            this.positions = positions;
+            this.Position.ItemsSource = this.positions;
             this.Surname.Text = user.Surname;
             this.FirstName.Text = user.Name;
             this.SecondName.Text = user.SecondName;
-            this.Position.Text = user.Position;
+            this.Position.SelectedIndex = user.Position;
             this.Login.Text = user.Login;
             this.Password.Text = user.Password;
         }
@@ -73,7 +76,7 @@ namespace View
             record.Name = this.FirstName.Text;
             record.Surname = this.Surname.Text;
             record.SecondName = this.SecondName.Text;
-            record.Position = this.Position.Text;
+            record.Position = this.Position.SelectedIndex;
             record.Login = this.Login.Text;
             record.Password = this.Password.Text;
 
@@ -85,6 +88,11 @@ namespace View
             {
 
             }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

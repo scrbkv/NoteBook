@@ -25,6 +25,7 @@ namespace View
         public event NeedToUpdateHandler NeedToUpdate;
 
         private EditWindow editWindow;
+        private List<string> positions = new List<string>();
 
         public MainWindow()
         {
@@ -54,7 +55,7 @@ namespace View
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            this.editWindow = new EditWindow(new Record());
+            this.editWindow = new EditWindow(new Record(), this.positions);
             this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
             this.editWindow.RecordModified += EditWindow_RecordModified;
             editWindow.ShowDialog();
@@ -82,23 +83,9 @@ namespace View
 
         private void LoginSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.Search(new SearchStruct(SearchStruct.SubjectEnum.login, LoginSearch.Text));
+            this.Search(this.SearchText.Text);
         }
 
-        private void NameSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.Search(new SearchStruct(SearchStruct.SubjectEnum.name, NameSearch.Text));
-        }
-
-        private void SurnameSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.Search(new SearchStruct(SearchStruct.SubjectEnum.surname, SurnameSearch.Text));
-        }
-
-        private void PositionSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.Search(new SearchStruct(SearchStruct.SubjectEnum.position, PositionSearch.Text));
-        }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -108,7 +95,7 @@ namespace View
 
         private void MenuItem_Edit(object sender, RoutedEventArgs e)
         {
-            this.editWindow = new EditWindow(this.Records.Items[this.Records.SelectedIndex] as Record);
+            this.editWindow = new EditWindow(this.Records.Items[this.Records.SelectedIndex] as Record, this.positions);
             this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
             this.editWindow.RecordModified += EditWindow_RecordModified;
             this.editWindow.ShowDialog();
@@ -122,6 +109,11 @@ namespace View
         private void Records_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             this.SaveUser(this.Records.Items[this.Records.SelectedIndex] as Record);
+        }
+
+        public void UpdatePositions(List<string> positions)
+        {
+            this.positions = positions;
         }
     }
 }
