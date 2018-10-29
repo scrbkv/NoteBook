@@ -32,10 +32,10 @@ namespace NoteBook
             view.Update(model.GetRecords());
         }
 
-        //private void View_Search(SearchStruct searchStruct)
-        //{
-        //    view.Update(model.GetRecords(searchStruct));
-        //}
+        private void View_Search(string text)
+        {
+            view.Update(model.GetRecords(text));
+        }
 
         private void Model_DBUpdated(List<Record> data)
         {
