@@ -32,7 +32,6 @@
             Отчество должно начинаться с заглавной буквы!
             </TextBlock>
         </Popup>
-        <TextBox x:Name="Position" HorizontalAlignment="Left" Height="23" Margin="10,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Должность" TextChanged="TextChanged"/>
         <TextBox x:Name="Login" HorizontalAlignment="Left" Height="23" Margin="10,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Логин" TextChanged="TextChanged"/>
         <Popup x:Name="LoginPopUp" StaysOpen="False" Placement="Absolute" MaxWidth="180"
          AllowsTransparency="True"  >
@@ -48,6 +47,7 @@
                 <BlurEffect KernelType="Box"/>
             </ProgressBar.Effect>
         </ProgressBar>
+        <ComboBox x:Name="Position" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,127,0,0" VerticalAlignment="Top" Width="200" SelectionChanged="ComboBox_SelectionChanged"/>
 
     </Grid>
 </Window>

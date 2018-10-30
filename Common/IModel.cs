@@ -23,6 +23,7 @@ namespace NoteBook
 
         List<Record> GetRecords();
         List<Record> GetRecords(string str);
+        List<string> GetPositions();
     }
 
    

@@ -9,7 +9,7 @@ namespace NoteBook
     public delegate void UserModifiedHandler(Record record);
     public delegate void UserDeletedHandler(Record record);
     public delegate void SaveUserHandler(Record record);
-    public delegate void SearchHandler(SearchStruct searchStruct);
+    public delegate void SearchHandler(string text);
     public delegate void NeedToUpdateHandler();
 
     public interface IView
@@ -23,6 +23,7 @@ namespace NoteBook
         void Update(List<Record> records);
         void IncorrectData(ErrorStruct error);
         void StartApp();
+        void UpdatePositions(List<string> positions);
     }
 
 }

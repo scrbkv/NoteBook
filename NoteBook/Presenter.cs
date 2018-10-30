@@ -24,6 +24,7 @@ namespace NoteBook
             view.UserModified += View_UserModified;
             //view.Search += View_Search;
             view.NeedToUpdate += View_NeedToUpdate;
+            view.UpdatePositions(model.GetPositions());
             view.StartApp();
         }
 
