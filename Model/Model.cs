@@ -114,15 +114,7 @@ namespace Model
             if (str == "")
                 return GetRecords();
 
-            List<Record> list = new List<Record>();
-            DataTable dt = connection.Find(str);
-
-            foreach (DataRow data in dt.Rows)
-            {
-                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), (int)data[5]));
-            }
-
-            return list;
+            return connection.Find(str);
         }
 
         public List<Record> GetRecords()

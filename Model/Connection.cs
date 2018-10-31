@@ -13,6 +13,7 @@ namespace NoteBook
     {
         private string _connectStr;
         MySqlConnection connection;
+        List<string> ls;
 
         public Connection()
         {
@@ -25,6 +26,7 @@ namespace NoteBook
             _connectStr = "server=" + ip + ";user=" + user + ";database=" + dataBase + ";password=" + password;
             connection = new MySqlConnection(_connectStr);
             connection.Open();
+            ls = new List<string> { "login", "password", "name", "second_name", "surname" };
         }
 
         ~Connection()
@@ -65,30 +67,44 @@ namespace NoteBook
             command.ExecuteNonQuery();            
         }
 
-        public DataTable Find(string str)
+        public List<Record> Find(string str)
         {
-            MySqlCommand command = new MySqlCommand("SELECT * FROM user WHERE * LIKE '%" + str + "%'", connection);
+            List<Record> list = new List<Record>();
+            MySqlCommand command = new MySqlCommand("SELECT * FROM user WHERE * LIKE '%" + str + "%'", connection);           
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable dt = new DataTable();
-            DataTable dt1 = new DataTable();           
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
 
-            adapter.SelectCommand = command;
-            adapter.Fill(dt);
+            foreach (string st in ls)
+            {
+                command = new MySqlCommand("SELECT * FROM user WHERE " + st + " LIKE '%" + str + "%'", connection);
+                adapter.SelectCommand = command;
+                adapter.Fill(dt);
+                foreach (DataRow data in dt.Rows)
+                {
+                    list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), (int)data[5]));
+                }
+            }            
             command = new MySqlCommand("SELECT positionID FROM positions WHERE position LIKE '%" + str + "%'", connection);
             adapter.SelectCommand = command;
-            adapter.Fill(dt1);
+            adapter.Fill(dt1);            
 
-            dt.Columns.Add("position", typeof(string));
-
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in dt1.Rows)
             {
-                command = new MySqlCommand("SELECT position_id FROM user_positions WHERE login_id ='" + row[0].ToString() + "'", connection);
-                int pos_id = (int)command.ExecuteScalar();
-                command = new MySqlCommand("SELECT position FROM positions WHERE positionID ='" + pos_id + "'", connection);
-                row[5] = command.ExecuteScalar().ToString();
-            }
+                command = new MySqlCommand("SELECT * FROM user WHERE positionID LIKE '%" + row[0] + "%'", connection);
+                adapter.SelectCommand = command;
+                adapter.Fill(dt2);
 
-            return dt;
+                foreach (DataRow data in dt2.Rows)
+                {
+                    list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), (int)data[5]));
+                }
+            }
+           
+            var result = list.GroupBy(x => x.Login).Select(x => x.First()).ToList();
+
+            return result;
         }
 
         public DataTable GetPos()
