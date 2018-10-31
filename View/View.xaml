@@ -4,14 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
-        xmlns:NoteBook="clr-namespace:NoteBook;assembly=Common" x:Name="Main" x:Class="View.MainWindow"
+        xmlns:NoteBook="clr-namespace:NoteBook;assembly=Common"
+        xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" x:Name="Main" x:Class="View.MainWindow"
         mc:Ignorable="d"
         Title="NoteBook" Height="350" Width="617">
-    <Grid x:Name="ViewField">
+    <Window.Resources>
+        <JournalEntryListConverter x:Key="JournalEntryListConverter"/>
+    </Window.Resources>
+    <Grid x:Name="ViewField" >
         <Button x:Name="AddButton" Content="Добавить" HorizontalAlignment="Left" Margin="487,10,0,0" VerticalAlignment="Top" Width="112" Height="37" Click="AddButton_Click"/>
-        <Button x:Name="EditButton" Content="Изменить" HorizontalAlignment="Left" Margin="487,52,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" RenderTransformOrigin="1.268,0.541"/>
+        <Button x:Name="EditButton" Content="Изменить" HorizontalAlignment="Left" Margin="487,52,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" RenderTransformOrigin="1.268,0.541" Click="EditButton_Click"/>
         <Button x:Name="DeleteButton" Content="Удалить" HorizontalAlignment="Left" Margin="487,94,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" Click="DeleteButton_Click"/>
-        <DataGrid x:Name="Records" HorizontalAlignment="Left" Height="271" Margin="10,38,0,0" VerticalAlignment="Top" Width="472" SelectionChanged="Records_SelectionChanged" MinColumnWidth="11" IsSynchronizedWithCurrentItem="True" CellEditEnding="Records_CellEditEnding">
+        <DataGrid AutoGenerateColumns="False" MouseDoubleClick="Records_MouseDoubleClick" x:Name="Records" HorizontalAlignment="Left" Height="271" Margin="10,38,0,0" VerticalAlignment="Top" Width="472" SelectionChanged="Records_SelectionChanged" MinColumnWidth="11" 
+                  IsSynchronizedWithCurrentItem="True" CellEditEnding="Records_CellEditEnding" ItemsSource="{Binding RecordCollection}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Логин" Binding="{Binding Login}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding SecondName}"></DataGridTextColumn>
+                <DataGridComboBoxColumn x:Name="Columns" Header="Должность"
+                                        ItemsSource="{Binding Source={x:Static local:MainWindow.Positions}}" 
+                                        SelectedValueBinding="{Binding PositionIndex}"
+                                        SelectedItemBinding="{Binding PositionName}"/>
+            </DataGrid.Columns>
+
+
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem MouseDown="MenuItem_Edit" Header="Изменить"></MenuItem>

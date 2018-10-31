@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +20,13 @@ namespace View
     public delegate void RecordModifiedHandler(Record record);
     public partial class EditWindow : Window
     {
-        private Record record = new Record();
+        private Record record;
         private List<string> positions;
 
         public event ApplyChangesHandler ApplyChanges;
         public event RecordModifiedHandler RecordModified;
+
+        bool correct = false;
 
         public EditWindow(Record user, List<string> positions)
         {
@@ -46,12 +49,16 @@ namespace View
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            this.ApplyChanges(record);
-            this.Close();
+            if (correct)
+            {
+                this.ApplyChanges(record);
+                this.Close();
+            }
         }
 
         public void IncorrectData(ErrorStruct errStruct)
         {
+            this.correct = errStruct.Correct;
             this.FirstNamePopUp.IsOpen = errStruct.IncorrectFirstName;
             this.SecondNamePopUp.IsOpen = errStruct.IncorrectSecondName;
             this.SurnamePopUp.IsOpen = errStruct.IncorrectSurname;
@@ -60,13 +67,13 @@ namespace View
             switch (errStruct.PWStrength)
             {
                 case ErrorStruct.PassStrength.Low:
-                    this.PWStrength.Value = 1/3;
+                    this.PWStrength.Value = 33;
                     break;
                 case ErrorStruct.PassStrength.Medium:
-                    this.PWStrength.Value = 2/3;
+                    this.PWStrength.Value = 66;
                     break;
                 case ErrorStruct.PassStrength.High:
-                    this.PWStrength.Value = 1;
+                    this.PWStrength.Value = 100;
                     break;
             }
         }
@@ -92,7 +99,7 @@ namespace View
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            this.record.Position = this.Position.SelectedIndex;
         }
     }
 }
