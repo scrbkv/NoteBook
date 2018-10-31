@@ -48,14 +48,21 @@ namespace NoteBook
 
         public void Add(Record user)
         {
-            string sql = "INSERT INTO user (login, password, name, second_name, surname, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
+            string sql = "INSERT INTO user (login, password, name, second_name, surname, positionID) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "'," + user.Position + ")";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();            
         }
 
+        //public void Replace(string login)
+        //{
+        //    string sql = "UPDATE user SET " + e + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
+        //    MySqlCommand command = new MySqlCommand(sql, connection);
+        //    command.ExecuteNonQuery();
+        //}
+
         public void Replace(Record user)
         {
-            string sql = "REPLACE INTO user (login, password, name, second_name, surname, position) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
+            string sql = "REPLACE INTO user (login, password, name, second_name, surname, positionID) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
         }
