@@ -12,7 +12,7 @@
         <JournalEntryListConverter x:Key="JournalEntryListConverter"/>
     </Window.Resources>
     <Grid x:Name="ViewField" >
-        <Button x:Name="AddButton" Content="Добавить" HorizontalAlignment="Left" Margin="487,10,0,0" VerticalAlignment="Top" Width="112" Height="37" Click="AddButton_Click"/>
+        <Button x:Name="AddButton"  Content="Добавить" HorizontalAlignment="Left" Margin="487,10,0,0" VerticalAlignment="Top" Width="112" Height="37" Click="AddButton_Click"/>
         <Button x:Name="EditButton" Content="Изменить" HorizontalAlignment="Left" Margin="487,52,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" RenderTransformOrigin="1.268,0.541" Click="EditButton_Click"/>
         <Button x:Name="DeleteButton" Content="Удалить" HorizontalAlignment="Left" Margin="487,94,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" Click="DeleteButton_Click"/>
         <DataGrid AutoGenerateColumns="False" MouseDoubleClick="Records_MouseDoubleClick" x:Name="Records" HorizontalAlignment="Left" Height="271" Margin="10,38,0,0" VerticalAlignment="Top" Width="472" SelectionChanged="Records_SelectionChanged" MinColumnWidth="11" 
