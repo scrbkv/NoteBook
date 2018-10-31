@@ -83,7 +83,7 @@ namespace NoteBook
                 adapter.Fill(dt);
                 foreach (DataRow data in dt.Rows)
                 {
-                    list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), (int)data[5]));
+                    list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[4].ToString(), data[3].ToString(), (int)data[5]));
                 }
             }            
             command = new MySqlCommand("SELECT positionID FROM positions WHERE position LIKE '%" + str + "%'", connection);
@@ -98,7 +98,7 @@ namespace NoteBook
 
                 foreach (DataRow data in dt2.Rows)
                 {
-                    list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), (int)data[5]));
+                    list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[4].ToString(), data[3].ToString(), (int)data[5]));
                 }
             }
            

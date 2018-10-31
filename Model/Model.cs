@@ -71,12 +71,15 @@ namespace Model
             bool secondName = true;
             bool surname = true;            
             ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();            
-            if (user.SecondName == "" || !char.IsUpper(user.SecondName[0]))
+            if (user.SecondName == "" || !char.IsUpper(user.SecondName[0]) || user.SecondName.Length > 50)
                 firstName = false;
-            if (user.Surname == "" || !char.IsUpper(user.Surname[0]))
+            if (user.Surname == "" || !char.IsUpper(user.Surname[0]) || user.Surname.Length > 50)
                 secondName = false;
-            if (user.Name == "" || !char.IsUpper(user.Name[0]))
+            if (user.Name == "" || !char.IsUpper(user.Name[0]) || user.Name.Length > 50)
                 firstName = false;
+
+            if(user.Password.Length > 50)
+                return new ErrorStruct(false, false, false, false, password);
 
             if (user.Password == "" || check.CheckPass(user.Password) <= 2)
                 password = ErrorStruct.PassStrength.Low;
@@ -85,7 +88,7 @@ namespace Model
             else
                 password = ErrorStruct.PassStrength.High;
 
-            if (user.Login == "")
+            if (user.Login == "" || user.Login.Length > 50)
                 login = false;
             else
                 login = connection.NonExisting(user);                        
@@ -124,7 +127,7 @@ namespace Model
 
             foreach (DataRow data in dt.Rows)
             {
-                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[3].ToString(), data[4].ToString(), (int)data[5]));
+                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[4].ToString(), data[3].ToString(), (int)data[5]));
             }
             
             return list;
