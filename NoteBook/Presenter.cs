@@ -22,9 +22,10 @@ namespace NoteBook
             view.SaveUser += View_SaveUser;
             view.UserDeleted += View_UserDeleted;
             view.UserModified += View_UserModified;
-            //view.Search += View_Search;
+            view.Search += View_Search;
             view.NeedToUpdate += View_NeedToUpdate;
             view.UpdatePositions(model.GetPositions());
+            view.UpdatePositions(new List<string> { "111", "222", "333" });
             view.StartApp();
         }
 
@@ -52,6 +53,7 @@ namespace NoteBook
         private void View_UserDeleted(Record user)
         {
             model.DeleteRecord(user);
+            view.Update(model.GetRecords());
         }
 
         private void View_SaveUser(Record record)
