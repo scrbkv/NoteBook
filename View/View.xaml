@@ -16,16 +16,19 @@
         <Button x:Name="EditButton" Content="Изменить" HorizontalAlignment="Left" Margin="487,52,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" RenderTransformOrigin="1.268,0.541" Click="EditButton_Click"/>
         <Button x:Name="DeleteButton" Content="Удалить" HorizontalAlignment="Left" Margin="487,94,0,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" Click="DeleteButton_Click"/>
         <DataGrid AutoGenerateColumns="False" MouseDoubleClick="Records_MouseDoubleClick" x:Name="Records" HorizontalAlignment="Left" Height="271" Margin="10,38,0,0" VerticalAlignment="Top" Width="472" SelectionChanged="Records_SelectionChanged" MinColumnWidth="11" 
-                  IsSynchronizedWithCurrentItem="True" CellEditEnding="Records_CellEditEnding" ItemsSource="{Binding RecordCollection}" >
+                  IsSynchronizedWithCurrentItem="True" CellEditEnding="Records_CellEditEnding" Keyboard.KeyDown="Records_KeyDown" ItemsSource="{Binding Source={x:Static local:MainWindow.RecordCollection}}" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Логин" Binding="{Binding Login}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Отчество" Binding="{Binding SecondName}"></DataGridTextColumn>
-                <DataGridComboBoxColumn x:Name="Columns" Header="Должность"
-                                        ItemsSource="{Binding Source={x:Static local:MainWindow.Positions}}" 
-                                        SelectedValueBinding="{Binding PositionIndex}"
-                                        SelectedItemBinding="{Binding PositionName}"/>
+
+                <DataGridComboBoxColumn x:Name="PositionsColumn" Header="Должность" ItemsSource="{Binding Source={x:Static local:MainWindow.Positions}}"
+                                        SelectedItemBinding="{Binding Position}">
+                    
+                </DataGridComboBoxColumn>
+
+
             </DataGrid.Columns>
 
 

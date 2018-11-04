@@ -7,35 +7,35 @@
         mc:Ignorable="d"
         Title="Редактирование пользователя" Height="300" Width="400">
     <Grid x:Name="EditField">
-        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Height="23" Margin="10,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Имя" TextChanged="TextChanged" TabIndex="2"/>
+        <TextBox x:Name="FirstName"  HorizontalAlignment="Left" Height="23" Margin="10,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Имя" TabIndex="2"/>
         <Popup x:Name="FirstNamePopUp" StaysOpen="False" Placement="Relative" PlacementRectangle="210, 50, 280, 83" MaxWidth="180"
          AllowsTransparency="True"  >
             <TextBlock TextWrapping="Wrap" Width="170" Background="LightPink" Opacity="0.8" Padding="0" >
             Имя должно начинаться с заглавной буквы!
             </TextBlock>
         </Popup>
-        <TextBox x:Name="Surname" HorizontalAlignment="Left" Height="23" Margin="10,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Фамилия" TextChanged="TextChanged" TabIndex="1"/>
+        <TextBox x:Name="Surname" HorizontalAlignment="Left" Height="23" Margin="10,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Фамилия" TabIndex="1"/>
         <Popup x:Name="SurnamePopUp" StaysOpen="False"  Placement="RelativePoint" PlacementRectangle="210, 20, 280, 43"  MaxWidth="180"
          AllowsTransparency="True"  >
             <TextBlock TextWrapping="Wrap" Width="170" Background="LightPink" Opacity="0.8">
             Фамилия должна начинаться с заглавной буквы!
             </TextBlock>
         </Popup>
-        <TextBox x:Name="SecondName" HorizontalAlignment="Left" Height="23" Margin="10,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Отчество" TextChanged="TextChanged" TabIndex="3"/>
+        <TextBox x:Name="SecondName" HorizontalAlignment="Left" Height="23" Margin="10,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Отчество" TabIndex="3"/>
         <Popup x:Name="SecondNamePopUp" StaysOpen="False"  Placement="RelativePoint" PlacementRectangle="210, 80, 280, 103"  MaxWidth="180"
          AllowsTransparency="True"  >
             <TextBlock TextWrapping="Wrap" Width="170" Background="LightPink" Opacity="0.8"  >
             Отчество должно начинаться с заглавной буквы!
             </TextBlock>
         </Popup>
-        <TextBox x:Name="Login" HorizontalAlignment="Left" Height="23" Margin="10,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Логин" TextChanged="TextChanged" TabIndex="5"/>
+        <TextBox x:Name="Login" HorizontalAlignment="Left" Height="23" Margin="10,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Логин" TabIndex="5"/>
         <Popup x:Name="LoginPopUp" StaysOpen="False" Placement="Relative" PlacementRectangle="210, 170, 280, 193"  MaxWidth="180"
          AllowsTransparency="True"  >
             <TextBlock TextWrapping="Wrap" Width="170" Background="LightPink" Opacity="0.8" Padding="30,0,0,0" RenderTransformOrigin="0.483,0.531" HorizontalAlignment="Right" VerticalAlignment="Bottom" >
             Это имя пользователя уже занято!
             </TextBlock>
         </Popup>
-        <TextBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="10,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" TextChanged="TextChanged" ToolTip="Пароль" TabIndex="6"/>
+        <TextBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="10,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2" ToolTip="Пароль" TabIndex="6"/>
         <Button x:Name="Save" Content="Сохранить" HorizontalAlignment="Left" Margin="110,237,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="Save_Click" TabIndex="8"/>
         <Button x:Name="Cancel" Content="Отменить" HorizontalAlignment="Left" Margin="28,237,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="Cancel_Click" TabIndex="7"/>
         <ProgressBar x:Name="PWStrength" HorizontalAlignment="Left" Height="4" Margin="10,226,0,0" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2">

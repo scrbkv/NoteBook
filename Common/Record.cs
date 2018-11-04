@@ -22,7 +22,7 @@ namespace NoteBook
             Name = "";
             Surname = "";
             SecondName = "";
-            Position = 0;
+            Position = -1;
         }
 
         public Record(string login, string password, string name, string surname, string secondName, int position)

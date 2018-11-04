@@ -21,7 +21,6 @@ namespace View
     public partial class EditWindow : Window
     {
         private Record record;
-        private List<string> positions;
 
         public event ApplyChangesHandler ApplyChanges;
         public event RecordModifiedHandler RecordModified;
@@ -32,14 +31,20 @@ namespace View
         {
             InitializeComponent();
             record = user;
-            this.positions = positions;
-            this.Position.ItemsSource = this.positions;
+            
+            this.Position.ItemsSource = positions;
             this.Surname.Text = user.Surname;
             this.FirstName.Text = user.Name;
             this.SecondName.Text = user.SecondName;
             this.Position.SelectedIndex = user.Position;
             this.Login.Text = user.Login;
             this.Password.Text = user.Password;
+
+            this.Surname.TextChanged += TextChanged;
+            this.FirstName.TextChanged += TextChanged;
+            this.SecondName.TextChanged += TextChanged;
+            this.Login.TextChanged += TextChanged;
+            this.Password.TextChanged += TextChanged;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -80,6 +85,7 @@ namespace View
 
         private void TextChanged(object sender, TextChangedEventArgs e)
         {
+            //if (e.Source == EditWindow)
             record.Name = this.FirstName.Text;
             record.Surname = this.Surname.Text;
             record.SecondName = this.SecondName.Text;

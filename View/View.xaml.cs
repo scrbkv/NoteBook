@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -20,12 +19,6 @@ namespace View
 {
     public partial class MainWindow : Window, IView
     { 
-        public class Pos
-        {
-            public string PositionName { get; set; }
-            public int PositionIndex { get; set; }
-        }
-
         public event UserModifiedHandler UserModified;
         public event UserDeletedHandler UserDeleted;
         public event SaveUserHandler SaveUser;
@@ -33,8 +26,8 @@ namespace View
         public event NeedToUpdateHandler NeedToUpdate;
 
         private EditWindow editWindow;
-        public static ObservableCollection<Pos> Positions { get; set; } = new ObservableCollection<Pos>();
-        public ObservableCollection<Record> RecordCollection { get; set; } = new ObservableCollection<Record>();
+        public static List<string> Positions { get; set; } = new List<string>();
+        public static ObservableCollection<Record> RecordCollection { get; set; } = new ObservableCollection<Record>();
 
         public MainWindow()
         {
@@ -60,16 +53,17 @@ namespace View
 
         public void Update(List<Record> records)
         {
+            //this.PositionsColumn.ItemsSource = MainWindow.Positions;
             foreach (var r in records)
-                this.RecordCollection.Add(r);
+            {
+                MainWindow.RecordCollection.Add(r);
+                //this.PositionsColumn.
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            List<string> positions = new List<string>();
-            foreach (var p in Positions)
-                positions.Add(p.PositionName);
-            this.editWindow = new EditWindow(new Record(), positions);
+            this.editWindow = new EditWindow(new Record(), Positions);
             this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
             this.editWindow.RecordModified += EditWindow_RecordModified;
             editWindow.ShowDialog();
@@ -104,16 +98,17 @@ namespace View
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.Records.SelectedIndex != -1)
-                this.UserDeleted(this.Records.SelectedItem as Record);
+            {
+                MessageBoxResult result = MessageBox.Show( "Действительно удалить пользователя?", "Подтверждение", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                    this.UserDeleted(this.Records.SelectedItem as Record);
+            }
             this.SearchText.Text = "";
         }
 
         private void MenuItem_Edit(object sender, RoutedEventArgs e)
         {
-            List<string> positions = new List<string>();
-            foreach (var p in Positions)
-                positions.Add(p.PositionName);
-            this.editWindow = new EditWindow(this.Records.Items[this.Records.SelectedIndex] as Record, positions);
+            this.editWindow = new EditWindow(this.Records.Items[this.Records.SelectedIndex] as Record, Positions);
             this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
             this.editWindow.RecordModified += EditWindow_RecordModified;
             this.editWindow.ShowDialog();
@@ -131,17 +126,13 @@ namespace View
 
         public void UpdatePositions(List<string> positions)
         {
-            for (int i = 0; i < positions.Count; ++i)
-                MainWindow.Positions.Add(new Pos() { PositionIndex = i, PositionName = positions[i] });
-            
+            MainWindow.Positions = positions;
+            this.PositionsColumn.ItemsSource = MainWindow.Positions;
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            List<string> positions = new List<string>();
-            foreach (var p in Positions)
-                positions.Add(p.PositionName);
-            this.editWindow = new EditWindow(this.Records.Items[this.Records.SelectedIndex] as Record, positions);
+            this.editWindow = new EditWindow(this.Records.Items[this.Records.SelectedIndex] as Record, Positions);
             this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
             this.editWindow.RecordModified += EditWindow_RecordModified;
             this.editWindow.ShowDialog();
@@ -150,6 +141,20 @@ namespace View
         private void Records_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             this.Records.BeginEdit();
+        }
+
+        private void Records_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                if (this.Records.SelectedIndex != -1)
+                {
+                    MessageBoxResult result = MessageBox.Show("Подтверждение", "Действительно удалить пользователя?", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.Yes)
+                        this.UserDeleted(this.Records.SelectedItem as Record);
+                }
+                this.SearchText.Text = "";
+            }
         }
     }
 }
