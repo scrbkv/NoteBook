@@ -36,7 +36,7 @@ namespace View
             this.Surname.Text = user.Surname;
             this.FirstName.Text = user.Name;
             this.SecondName.Text = user.SecondName;
-            this.Position.SelectedIndex = user.Position;
+            this.Position.SelectedIndex = positions.IndexOf(user.Position);
             this.Login.Text = user.Login;
             this.Password.Text = user.Password;
 
@@ -54,6 +54,7 @@ namespace View
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            this.RecordModified(this.record);
             if (correct)
             {
                 this.ApplyChanges(record);
@@ -89,7 +90,7 @@ namespace View
             record.Name = this.FirstName.Text;
             record.Surname = this.Surname.Text;
             record.SecondName = this.SecondName.Text;
-            record.Position = this.Position.SelectedIndex;
+            record.Position = (string)this.Position.SelectedItem;
             record.Login = this.Login.Text;
             record.Password = this.Password.Text;
 
@@ -105,7 +106,7 @@ namespace View
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.record.Position = this.Position.SelectedIndex;
+            this.record.Position = (string)this.Position.SelectedItem;
         }
     }
 }

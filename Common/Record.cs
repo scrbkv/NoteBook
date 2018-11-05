@@ -12,7 +12,7 @@ namespace NoteBook
         public string Name { get; set; }
         public string SecondName { get; set; }
         public string Surname { get; set; }
-        public int Position { get; set; }
+        public string Position { get; set; }
         public string Password { get; set; }
 
         public Record()
@@ -22,10 +22,10 @@ namespace NoteBook
             Name = "";
             Surname = "";
             SecondName = "";
-            Position = -1;
+            Position = "";
         }
 
-        public Record(string login, string password, string name, string surname, string secondName, int position)
+        public Record(string login, string password, string name, string surname, string secondName, string position)
         {
             Login = login;
             Password = password;

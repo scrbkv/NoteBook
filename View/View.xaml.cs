@@ -27,7 +27,6 @@ namespace View
 
         private EditWindow editWindow;
         public static List<string> Positions { get; set; } = new List<string>();
-        public static ObservableCollection<Record> RecordCollection { get; set; } = new ObservableCollection<Record>();
 
         public MainWindow()
         {
@@ -53,12 +52,8 @@ namespace View
 
         public void Update(List<Record> records)
         {
-            //this.PositionsColumn.ItemsSource = MainWindow.Positions;
-            foreach (var r in records)
-            {
-                MainWindow.RecordCollection.Add(r);
-                //this.PositionsColumn.
-            }
+            //this.Records.Items.Clear();
+            this.Records.ItemsSource = records;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -127,7 +122,6 @@ namespace View
         public void UpdatePositions(List<string> positions)
         {
             MainWindow.Positions = positions;
-            this.PositionsColumn.ItemsSource = MainWindow.Positions;
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)

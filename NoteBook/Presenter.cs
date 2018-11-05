@@ -53,7 +53,6 @@ namespace NoteBook
         private void View_UserDeleted(Record user)
         {
             model.DeleteRecord(user);
-            view.Update(model.GetRecords());
         }
 
         private void View_SaveUser(Record record)
