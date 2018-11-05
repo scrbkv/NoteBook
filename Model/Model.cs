@@ -13,6 +13,20 @@ namespace Model
     public class Model : IModel
     {        
         private Connection connection;
+        private static Random random = new Random((int)DateTime.Now.Ticks);
+
+        private string RandomString(int size)
+        {
+            StringBuilder builder = new StringBuilder();
+            char ch;
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(ch);
+            }
+
+            return builder.ToString();
+        }
 
         public Model()
         {
@@ -28,20 +42,34 @@ namespace Model
         public event DBUpdatedHandler DBUpdated;
         public event IncorrectRecordHandler IncorrectRecord;
 
+        public ErrorStruct ReplaceRecord(Record user)
+        {
+            ErrorStruct check = CheckRecord(user);
+
+            if (check == true)
+            {                
+                connection.Replace(user);
+            }                         
+
+            this.DBUpdated(GetRecords());
+            return check;
+        }
+
         public ErrorStruct AddRecord(Record user)
         {
             ErrorStruct check = CheckRecord(user);
 
             if (check == true)
             {
+                string salt = RandomString(10);
                 for (int i = 0; i < 1000; ++i)
                 {
+                    user.Password += salt;
                     user.Password = GetHashString(user.Password);
                 }
+                user.Password += "(" + salt + ")";
                 connection.Add(user);
-            }
-            else
-                connection.Replace(user);
+            }            
 
             this.DBUpdated(GetRecords());
             return check;
@@ -66,34 +94,35 @@ namespace Model
         public ErrorStruct CheckRecord(Record user)
         {                
             CheckPassword check = new CheckPassword();
+            ErrorStruct error;
             bool login = true;
             bool firstName = true;
             bool secondName = true;
             bool surname = true;            
-            ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();            
-            if (user.SecondName == "" || !char.IsUpper(user.SecondName[0]) || user.SecondName.Length > 50)
-                firstName = false;
-            if (user.Surname == "" || !char.IsUpper(user.Surname[0]) || user.Surname.Length > 50)
-                secondName = false;
-            if (user.Name == "" || !char.IsUpper(user.Name[0]) || user.Name.Length > 50)
-                firstName = false;
+            ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();
+            if (user.Surname == "" || !char.IsUpper(user.Surname[0]) || user.Surname.Length > 50)            
+                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);                               
+            else if (user.Name == "" || !char.IsUpper(user.Name[0]) || user.Name.Length > 50)
+                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
+            else if (user.SecondName == "" || !char.IsUpper(user.SecondName[0]) || user.SecondName.Length > 50)
+                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
 
-            if(user.Password.Length > 50)
-                return new ErrorStruct(false, false, false, false, password);
+            else if (user.Password.Length > 50)
+                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
 
-            if (user.Password == "" || check.CheckPass(user.Password) <= 2)
+            else if (user.Password == "" || check.CheckPass(user.Password) <= 2)
                 password = ErrorStruct.PassStrength.Low;
             else if (check.CheckPass(user.Password) == 3 || check.CheckPass(user.Password) == 4)
                 password = ErrorStruct.PassStrength.Medium;
-            else
+            else if (check.CheckPass(user.Password) > 4)
                 password = ErrorStruct.PassStrength.High;
 
-            if (user.Login == "" || user.Login.Length > 50)
-                login = false;
+            else if (user.Login == "" || user.Login.Length > 50)
+                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
             else
-                login = connection.NonExisting(user);                        
+                login = connection.NonExisting(user);
 
-            return new ErrorStruct(login, firstName, secondName, surname, password);
+            return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
             //throw new NotImplementedException();
         }
 
@@ -108,7 +137,7 @@ namespace Model
                 return false;
             }
 
-            this.DBUpdated(GetRecords());
+           // this.DBUpdated(GetRecords());
            return true;
         }
 

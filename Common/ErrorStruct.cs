@@ -14,9 +14,9 @@ namespace NoteBook
             Correct = true;
         }
 
-        public ErrorStruct(bool login, bool firstname, bool secondName, bool surname, PassStrength strength)
+        public ErrorStruct(bool login, bool firstname, bool secondName, bool surname, PassStrength strength, bool correct)
         {
-            Correct = login && firstname && secondName && surname;
+            Correct = correct;
 
             PWStrength = strength;
             IncorrectLogin = !login;
