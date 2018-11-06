@@ -46,9 +46,28 @@ namespace NoteBook
             return true;
         }
 
+        public bool IdExisting(int id)
+        {
+            string check = "SELECT id FROM user WHERE login = " + id;
+            MySqlCommand command = new MySqlCommand(check, connection);
+            command.ExecuteNonQuery();
+
+            if (command.ExecuteScalar() != null)
+                return true;
+
+            return false;
+        }
+
         public void Add(Record user)
         {
-            string sql = "INSERT INTO user (login, password, name, second_name, surname, positionID) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "'," + user.Position + ")";
+            Random rand = new Random();
+            int id = rand.Next();
+
+            while(IdExisting(id))
+            {
+                id = rand.Next();
+            }
+            string sql = "INSERT INTO user (id, login, password, name, second_name, surname, positionID) VALUES ("+ id + ",'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "'," + user.Position + ")";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();            
         }
@@ -62,14 +81,14 @@ namespace NoteBook
 
         public void Replace(Record user)
         {
-            string sql = "REPLACE INTO user (login, password, name, second_name, surname, positionID) VALUES ('" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
+            string sql = "REPLACE INTO user (id, login, password, name, second_name, surname, positionID) VALUES (" + user.Id + ",'"+ user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
         }
 
         public void Delete(Record user)
         {
-            string sql = "DELETE FROM user WHERE login = \"" + user.Login + "\"";
+            string sql = "DELETE FROM user WHERE id = \"" + user.Id + "\"";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();            
         }
@@ -90,7 +109,7 @@ namespace NoteBook
                 adapter.Fill(dt);
                 foreach (DataRow data in dt.Rows)
                 {
-                    list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[4].ToString(), data[3].ToString(), data[5].ToString()));
+                    list.Add(new Record(data[1].ToString(), data[2].ToString(), data[3].ToString(), data[5].ToString(), data[4].ToString(), data[6].ToString(), (int)data[0]));
                 }
             }            
             command = new MySqlCommand("SELECT positionID FROM positions WHERE position LIKE '%" + str + "%'", connection);
@@ -105,7 +124,7 @@ namespace NoteBook
 
                 foreach (DataRow data in dt2.Rows)
                 {
-                    list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[4].ToString(), data[3].ToString(), data[5].ToString()));
+                    list.Add(new Record(data[1].ToString(), data[2].ToString(), data[3].ToString(), data[5].ToString(), data[4].ToString(), data[6].ToString()));
                 }
             }
            
@@ -119,7 +138,10 @@ namespace NoteBook
             MySqlCommand command = new MySqlCommand("SELECT * FROM positions", connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable dt = new DataTable();
-           
+
+            adapter.SelectCommand = command;
+            adapter.Fill(dt);
+
             return dt;
         }
 
@@ -127,10 +149,17 @@ namespace NoteBook
         {
             MySqlCommand command = new MySqlCommand("SELECT * FROM user", connection);                      
             MySqlDataAdapter adapter = new MySqlDataAdapter();
-            DataTable dt = new DataTable();
+            DataTable dt = new DataTable();            
 
             adapter.SelectCommand = command;
-            adapter.Fill(dt);           
+            adapter.Fill(dt);
+            dt.Columns.Add("positions");
+
+            foreach (DataRow data in dt.Rows)
+            {
+                command = new MySqlCommand("SELECT position FROM positions WHERE positionID = " + data[5], connection);
+                data["positions"] = command.ExecuteScalar();
+            }
 
             return dt;
         }

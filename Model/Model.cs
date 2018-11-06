@@ -93,22 +93,43 @@ namespace Model
 
         public ErrorStruct CheckRecord(Record user)
         {                
-            CheckPassword check = new CheckPassword();
-            ErrorStruct error;
-            bool login = true;
-            bool firstName = true;
-            bool secondName = true;
-            bool surname = true;            
+            CheckPassword check = new CheckPassword();           
+            bool flag = false;
+            bool login = false;
+            bool firstName = false;
+            bool secondName = false;
+            bool surname = false;
+            bool correct = false;
             ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();
-            if (user.Surname == "" || !char.IsUpper(user.Surname[0]) || user.Surname.Length > 50)            
-                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);                               
-            else if (user.Name == "" || !char.IsUpper(user.Name[0]) || user.Name.Length > 50)
-                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
-            else if (user.SecondName == "" || !char.IsUpper(user.SecondName[0]) || user.SecondName.Length > 50)
-                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
+            if (user.Surname == "")
+            {
+                correct = false;
+                flag = true;
+                surname = true;
+            }
+            else
+                if (char.IsUpper(user.Surname[0]) && user.Surname.Length < 51)
+                    surname = true;
 
-            else if (user.Password.Length > 50)
-                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
+            if (user.Name == "")
+            {
+                correct = false;
+                firstName = true;
+                flag = true;
+            }
+            else
+               if (char.IsUpper(user.Name[0]) && user.Name.Length < 51)
+                firstName = true;
+
+            if (user.SecondName == "")
+            {
+                correct = false;
+                secondName = true;
+                flag = true;
+            }
+            else
+              if (char.IsUpper(user.SecondName[0]) && user.SecondName.Length < 51)
+                secondName = true;          
 
             else if (user.Password == "" || check.CheckPass(user.Password) <= 2)
                 password = ErrorStruct.PassStrength.Low;
@@ -117,12 +138,21 @@ namespace Model
             else if (check.CheckPass(user.Password) > 4)
                 password = ErrorStruct.PassStrength.High;
 
-            else if (user.Login == "" || user.Login.Length > 50)
-                return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
+            if (user.Login == "")
+            {
+                correct = false;
+                login = true;
+                flag = true;
+            }
+            else if (user.Login.Length < 51)
+                login = true;
             else
-                login = connection.NonExisting(user);
+                login = !connection.NonExisting(user);
 
-            return new ErrorStruct(true, true, true, true, ErrorStruct.PassStrength.Low, false);
+            if(!flag)
+                correct = login || firstName || secondName || surname;
+
+            return new ErrorStruct(login, firstName, secondName, surname, password, correct);
             //throw new NotImplementedException();
         }
 
@@ -137,7 +167,7 @@ namespace Model
                 return false;
             }
 
-           // this.DBUpdated(GetRecords());
+           this.DBUpdated(GetRecords());
            return true;
         }
 
@@ -156,7 +186,7 @@ namespace Model
 
             foreach (DataRow data in dt.Rows)
             {
-                list.Add(new Record(data[0].ToString(), data[1].ToString(), data[2].ToString(), data[4].ToString(), data[3].ToString(), data[5].ToString()));
+                list.Add(new Record(data[1].ToString(), data[2].ToString(), data[3].ToString(), data[5].ToString(), data[4].ToString(), data[7].ToString(), (int)data[0]));
             }
             
             return list;
