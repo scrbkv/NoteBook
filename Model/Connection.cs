@@ -157,7 +157,7 @@ namespace NoteBook
 
             foreach (DataRow data in dt.Rows)
             {
-                command = new MySqlCommand("SELECT position FROM positions WHERE positionID = " + data[5], connection);
+                command = new MySqlCommand("SELECT position FROM positions WHERE positionID = " + data[6], connection);
                 data["positions"] = command.ExecuteScalar();
             }
 
