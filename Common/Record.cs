@@ -14,7 +14,8 @@ namespace NoteBook
         public string Surname { get; set; }
         public string Position { get; set; }
         public string Password { get; set; }
-        public int Id { get; set; }
+        public Guid Idg { get; }
+        public string Id { get; }
 
         public Record()
         {
@@ -23,20 +24,12 @@ namespace NoteBook
             Name = "";
             Surname = "";
             SecondName = "";
-            Position = "";            
+            Position = "";
+            Idg = Guid.NewGuid();
+            Id = Idg.ToString();
         }
 
-        public Record(string login, string password, string name, string surname, string secondName, string position)
-        {
-            Login = login;
-            Password = password;
-            Name = name;
-            Surname = surname;
-            SecondName = secondName;
-            Position = position;            
-        }
-
-        public Record(string login, string password, string name, string surname, string secondName, string position, int id)
+        public Record(string login, string password, string name, string surname, string secondName, string position, string id)
         {
             Login = login;
             Password = password;
@@ -44,7 +37,7 @@ namespace NoteBook
             Surname = surname;
             SecondName = secondName;
             Position = position;
-            Id = id;
-        }
+            Id = id;        
+        }        
     }
 }

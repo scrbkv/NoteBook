@@ -25,7 +25,7 @@ namespace NoteBook
             view.Search += View_Search;
             view.NeedToUpdate += View_NeedToUpdate;
             view.UpdatePositions(model.GetPositions());
-            view.UpdatePositions(new List<string> { "111", "222", "333" });
+            view.UpdatePositions(model.GetPositions());
             view.StartApp();
         }
 

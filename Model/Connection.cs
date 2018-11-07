@@ -44,32 +44,15 @@ namespace NoteBook
                 return false;
 
             return true;
-        }
-
-        public bool IdExisting(int id)
-        {
-            string check = "SELECT id FROM user WHERE login = " + id;
-            MySqlCommand command = new MySqlCommand(check, connection);
-            command.ExecuteNonQuery();
-
-            if (command.ExecuteScalar() != null)
-                return true;
-
-            return false;
-        }
+        }        
 
         public void Add(Record user)
-        {
-            Random rand = new Random();
-            int id = rand.Next();
+        {                       
+            MySqlCommand command = new MySqlCommand("SELECT positionID FROM positions WHERE position = '" + user.Position + "'", connection);            
+            string sql = "INSERT INTO user (id, login, password, name, second_name, surname, positionID) VALUES ('" + user.Id + "','" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "'," + command.ExecuteScalar().ToString() + ")";
+            command = new MySqlCommand(sql, connection);
+            command.ExecuteNonQuery();
 
-            while(IdExisting(id))
-            {
-                id = rand.Next();
-            }
-            string sql = "INSERT INTO user (id, login, password, name, second_name, surname, positionID) VALUES ("+ id + ",'" + user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "'," + user.Position + ")";
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();            
         }
 
         //public void Replace(string login)
@@ -81,7 +64,7 @@ namespace NoteBook
 
         public void Replace(Record user)
         {
-            string sql = "REPLACE INTO user (id, login, password, name, second_name, surname, positionID) VALUES (" + user.Id + ",'"+ user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
+            string sql = "REPLACE INTO user (id, login, password, name, second_name, surname, positionID) VALUES ('" + user.Id + "','"+ user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
         }
@@ -93,28 +76,18 @@ namespace NoteBook
             command.ExecuteNonQuery();            
         }
 
-        public List<Record> Find(string str)
+        public List<Record> Find(string str, List<string> PosList)
         {
-            List<Record> list = new List<Record>();
+            List<Record> list = new List<Record>();                     
             MySqlCommand command = new MySqlCommand("SELECT * FROM user WHERE * LIKE '%" + str + "%'", connection);           
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable dt = new DataTable();
             DataTable dt1 = new DataTable();
             DataTable dt2 = new DataTable();
 
-            foreach (string st in ls)
-            {
-                command = new MySqlCommand("SELECT * FROM user WHERE " + st + " LIKE '%" + str + "%'", connection);
-                adapter.SelectCommand = command;
-                adapter.Fill(dt);
-                foreach (DataRow data in dt.Rows)
-                {
-                    list.Add(new Record(data[1].ToString(), data[2].ToString(), data[3].ToString(), data[5].ToString(), data[4].ToString(), data[6].ToString(), (int)data[0]));
-                }
-            }            
-            command = new MySqlCommand("SELECT positionID FROM positions WHERE position LIKE '%" + str + "%'", connection);
+            command = new MySqlCommand("SELECT positionID, position FROM positions WHERE position LIKE '%" + str + "%'", connection);
             adapter.SelectCommand = command;
-            adapter.Fill(dt1);            
+            adapter.Fill(dt1);
 
             foreach (DataRow row in dt1.Rows)
             {
@@ -124,9 +97,20 @@ namespace NoteBook
 
                 foreach (DataRow data in dt2.Rows)
                 {
-                    list.Add(new Record(data[1].ToString(), data[2].ToString(), data[3].ToString(), data[5].ToString(), data[4].ToString(), data[6].ToString()));
+                    list.Add(new Record(data[1].ToString(), data[2].ToString(), data[3].ToString(), data[5].ToString(), data[4].ToString(), row[1].ToString(), data[0].ToString()));
                 }
             }
+
+            foreach (string st in ls)
+            {
+                command = new MySqlCommand("SELECT * FROM user WHERE " + st + " LIKE '%" + str + "%'", connection);
+                adapter.SelectCommand = command;
+                adapter.Fill(dt);
+                foreach (DataRow data in dt.Rows)
+                {
+                    list.Add(new Record(data[1].ToString(), data[2].ToString(), data[3].ToString(), data[5].ToString(), data[4].ToString(), PosList[(int)data[6] - 1].ToString(), data[0].ToString()));
+                }
+            }                        
            
             var result = list.GroupBy(x => x.Login).Select(x => x.First()).ToList();
 

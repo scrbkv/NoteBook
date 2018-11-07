@@ -7,7 +7,7 @@ using NoteBook;
 
 namespace NoteBook
 {
-    class CheckPassword
+    public class CheckPassword
     {
         private int strength = 0;
 
@@ -18,7 +18,7 @@ namespace NoteBook
             if (ContainsPunctuation(pass)) ++strength;
             if (ContainsSeparator(pass)) ++strength;
             if (ContainsUpperLetter(pass)) ++strength;
-            if (pass.Length >= 10) ++strength;
+            if (pass.Length >= 15) ++strength;
 
             return strength;
         }

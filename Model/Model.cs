@@ -176,7 +176,7 @@ namespace Model
             if (str == "")
                 return GetRecords();
 
-            return connection.Find(str);
+            return connection.Find(str, GetPositions());
         }
 
         public List<Record> GetRecords()
@@ -186,7 +186,7 @@ namespace Model
 
             foreach (DataRow data in dt.Rows)
             {
-                list.Add(new Record(data[1].ToString(), data[2].ToString(), data[3].ToString(), data[5].ToString(), data[4].ToString(), data[7].ToString(), (int)data[0]));
+                list.Add(new Record(data[1].ToString(), data[2].ToString(), data[3].ToString(), data[5].ToString(), data[4].ToString(), data[7].ToString(), data[0].ToString()));
             }
             
             return list;
