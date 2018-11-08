@@ -20,6 +20,7 @@ namespace NoteBook
             model.IncorrectRecord += Model_IncorrectRecord;
             model.DBUpdated += Model_DBUpdated;
             view.SaveUser += View_SaveUser;
+            view.ReplaceUser += View_ReplaceUser;
             view.UserDeleted += View_UserDeleted;
             view.UserModified += View_UserModified;
             view.Search += View_Search;
@@ -27,6 +28,11 @@ namespace NoteBook
             view.UpdatePositions(model.GetPositions());
             view.UpdatePositions(model.GetPositions());
             view.StartApp();
+        }
+
+        private void View_ReplaceUser(Record record)
+        {
+            model.ReplaceRecord(record);
         }
 
         private void View_NeedToUpdate()

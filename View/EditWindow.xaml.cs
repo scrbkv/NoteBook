@@ -18,19 +18,40 @@ namespace View
 {
     public delegate void ApplyChangesHandler(Record record);
     public delegate void RecordModifiedHandler(Record record);
+    public delegate void AddRecordHandler(Record record);
+
     public partial class EditWindow : Window
     {
         private Record record;
 
         public event ApplyChangesHandler ApplyChanges;
         public event RecordModifiedHandler RecordModified;
+        public event AddRecordHandler AddNewRecord;
 
         bool correct = false;
+        bool edit;
+
+        public EditWindow(List<string> positions)
+        {
+            InitializeComponent();
+            record = new Record();
+            this.Position.ItemsSource = positions;
+
+            edit = false;
+
+            this.Surname.TextChanged += TextChanged;
+            this.FirstName.TextChanged += TextChanged;
+            this.SecondName.TextChanged += TextChanged;
+            this.Login.TextChanged += TextChanged;
+            this.Password.TextChanged += TextChanged;
+        }
 
         public EditWindow(Record user, List<string> positions)
         {
             InitializeComponent();
             record = user;
+
+            edit = true;
             
             this.Position.ItemsSource = positions;
             this.Surname.Text = user.Surname;
@@ -38,7 +59,7 @@ namespace View
             this.SecondName.Text = user.SecondName;
             this.Position.SelectedIndex = positions.IndexOf(user.Position);
             this.Login.Text = user.Login;
-            this.Password.Text = user.Password;
+            this.Password.Text = "";
 
             this.Surname.TextChanged += TextChanged;
             this.FirstName.TextChanged += TextChanged;
@@ -57,7 +78,11 @@ namespace View
             this.RecordModified(this.record);
             if (correct)
             {
-                this.ApplyChanges(record);
+                if (edit)
+                    this.ApplyChanges(record);
+                else
+                    this.AddNewRecord(record);
+
                 this.Close();
             }
         }
@@ -65,6 +90,7 @@ namespace View
         public void IncorrectData(ErrorStruct errStruct)
         {
             this.correct = errStruct.Correct;
+            this.Save.IsEnabled = correct;
             this.FirstNamePopUp.IsOpen = errStruct.IncorrectFirstName;
             this.SecondNamePopUp.IsOpen = errStruct.IncorrectSecondName;
             this.SurnamePopUp.IsOpen = errStruct.IncorrectSurname;

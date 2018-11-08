@@ -24,6 +24,7 @@ namespace View
         public event SaveUserHandler SaveUser;
         public event SearchHandler Search;
         public event NeedToUpdateHandler NeedToUpdate;
+        public event ReplaceUserHandler ReplaceUser;
 
         private EditWindow editWindow;
         public static List<string> Positions { get; set; } = new List<string>();
@@ -42,7 +43,7 @@ namespace View
 
         private void EditWindow_ApplyChanges(Record record)
         {
-            this.SaveUser(record);
+            this.ReplaceUser(record);
         }
 
         public void IncorrectData(ErrorStruct error)
@@ -58,10 +59,16 @@ namespace View
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            this.editWindow = new EditWindow(new Record(), Positions);
+            this.editWindow = new EditWindow(Positions);
             this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
             this.editWindow.RecordModified += EditWindow_RecordModified;
+            this.editWindow.AddNewRecord += EditWindow_AddNewRecord;
             editWindow.ShowDialog();
+        }
+
+        private void EditWindow_AddNewRecord(Record record)
+        {
+            this.SaveUser(record);
         }
 
         public void StartApp()
@@ -106,17 +113,18 @@ namespace View
             this.editWindow = new EditWindow(this.Records.Items[this.Records.SelectedIndex] as Record, Positions);
             this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
             this.editWindow.RecordModified += EditWindow_RecordModified;
+            this.editWindow.AddNewRecord += EditWindow_AddNewRecord;
             this.editWindow.ShowDialog();
         }
 
         private void MenuItem_Delete(object sender, MouseButtonEventArgs e)
         {
-
+            this.UserDeleted(this.Records.SelectedItem as Record);
         }
 
         private void Records_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            this.SaveUser(this.Records.Items[this.Records.SelectedIndex] as Record);
+            this.ReplaceUser(this.Records.SelectedItem as Record);
         }
 
         public void UpdatePositions(List<string> positions)
@@ -129,6 +137,7 @@ namespace View
             this.editWindow = new EditWindow(this.Records.Items[this.Records.SelectedIndex] as Record, Positions);
             this.editWindow.ApplyChanges += EditWindow_ApplyChanges;
             this.editWindow.RecordModified += EditWindow_RecordModified;
+            this.editWindow.AddNewRecord += EditWindow_AddNewRecord;
             this.editWindow.ShowDialog();
         }
 

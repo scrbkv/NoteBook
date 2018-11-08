@@ -7,6 +7,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using NoteBook;
 
+
 namespace NoteBook
 {
     class Connection
@@ -36,11 +37,11 @@ namespace NoteBook
 
         public bool NonExisting(Record user)
         {
-            string check = "SELECT name FROM user WHERE login = \"" + user.Login + "\"";
+            string check = "SELECT count(*) FROM user WHERE login = \"" + user.Login + "\"";
             MySqlCommand command = new MySqlCommand(check, connection);
-            command.ExecuteNonQuery();
-
-            if (command.ExecuteScalar() != null)
+            int i = System.Convert.ToInt32(command.ExecuteScalar());
+            
+            if (i == 0)
                 return false;
 
             return true;
@@ -64,8 +65,9 @@ namespace NoteBook
 
         public void Replace(Record user)
         {
-            string sql = "REPLACE INTO user (id, login, password, name, second_name, surname, positionID) VALUES ('" + user.Id + "','"+ user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "','" + user.Position + "')";
-            MySqlCommand command = new MySqlCommand(sql, connection);
+            MySqlCommand command = new MySqlCommand("SELECT positionID FROM positions WHERE position = '" + user.Position + "'", connection);
+            string sql = "REPLACE INTO user (id, login, password, name, second_name, surname, positionID) VALUES ('" + user.Id + "','"+ user.Login + "','" + user.Password + "','" + user.Name + "','" + user.SecondName + "','" + user.Surname + "'," + command.ExecuteScalar() + ")";
+            command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();
         }
 

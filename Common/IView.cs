@@ -11,6 +11,7 @@ namespace NoteBook
     public delegate void SaveUserHandler(Record record);
     public delegate void SearchHandler(string text);
     public delegate void NeedToUpdateHandler();
+    public delegate void ReplaceUserHandler(Record record);
 
     public interface IView
     {
@@ -19,6 +20,7 @@ namespace NoteBook
         event SaveUserHandler SaveUser;
         event SearchHandler Search;
         event NeedToUpdateHandler NeedToUpdate;
+        event ReplaceUserHandler ReplaceUser;
 
         void Update(List<Record> records);
         void IncorrectData(ErrorStruct error);

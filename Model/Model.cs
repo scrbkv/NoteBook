@@ -129,13 +129,19 @@ namespace Model
             }
             else
               if (char.IsUpper(user.SecondName[0]) && user.SecondName.Length < 51)
-                secondName = true;          
+                secondName = true;
 
-            else if (user.Password == "" || check.CheckPass(user.Password) <= 2)
+            var strength = check.CheckPass(user.Password);
+
+            if (user.Password == "" || strength <= 2)
+            {
                 password = ErrorStruct.PassStrength.Low;
-            else if (check.CheckPass(user.Password) == 3 || check.CheckPass(user.Password) == 4)
+                flag = true;
+                correct = false;
+            }
+            else if (strength == 3 || strength == 4)
                 password = ErrorStruct.PassStrength.Medium;
-            else if (check.CheckPass(user.Password) > 4)
+            else if (strength > 4)
                 password = ErrorStruct.PassStrength.High;
 
             if (user.Login == "")
@@ -145,12 +151,12 @@ namespace Model
                 flag = true;
             }
             else if (user.Login.Length < 51)
-                login = true;
-            else
                 login = !connection.NonExisting(user);
+            else
+                login = false;
 
             if(!flag)
-                correct = login || firstName || secondName || surname;
+                correct = login && firstName && secondName && surname;
 
             return new ErrorStruct(login, firstName, secondName, surname, password, correct);
             //throw new NotImplementedException();

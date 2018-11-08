@@ -7,7 +7,7 @@
         xmlns:NoteBook="clr-namespace:NoteBook;assembly=Common"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" x:Name="Main" x:Class="View.MainWindow"
         mc:Ignorable="d"
-        Title="NoteBook" Height="350" Width="617">
+        Title="NoteBook" Height="350" Width="617" MinHeight="300" MinWidth="600">
     <Window.Resources>
         <JournalEntryListConverter x:Key="JournalEntryListConverter"/>
     </Window.Resources>

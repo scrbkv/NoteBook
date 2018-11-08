@@ -17,6 +17,7 @@ namespace NoteBook
         event IncorrectRecordHandler IncorrectRecord;
 
         ErrorStruct AddRecord(Record record);
+        ErrorStruct ReplaceRecord(Record record);
         bool DeleteRecord(Record user);
         ErrorStruct CheckRecord(Record record);
         void Connect(string ip, string user, string dataBase, string password);
