@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{92BC1290-0ABF-4672-9285-1C9BEBAEB45D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Скрипты", "Скрипты", "{7381E30D-2F6C-46A3-B0C6-5D7C2CC76490}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\..\tmp\CreateTables.sql = ..\..\..\..\..\..\tmp\CreateTables.sql
+		..\..\..\..\..\..\tmp\TestContent.sql = ..\..\..\..\..\..\tmp\TestContent.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
