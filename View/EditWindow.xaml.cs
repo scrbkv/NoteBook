@@ -39,11 +39,53 @@ namespace View
 
             edit = false;
 
+            this.Surname.Text = "Фамилия";
+            this.FirstName.Text = "Имя";
+            this.SecondName.Text = "Отчество";
+            this.Login.Text = "Логин";
+            this.Password.Text = "Пароль";
+
+            this.Surname.GotFocus += Surname_MouseDown;
+            this.FirstName.GotFocus += FirstName_MouseDown;
+            this.SecondName.GotFocus += SecondName_MouseDown;
+            this.Login.GotFocus += Login_MouseDown;
+            this.Password.GotFocus += Password_MouseDown;
+
             this.Surname.TextChanged += TextChanged;
             this.FirstName.TextChanged += TextChanged;
             this.SecondName.TextChanged += TextChanged;
             this.Login.TextChanged += TextChanged;
             this.Password.TextChanged += TextChanged;
+        }
+
+        private void Password_MouseDown(object sender, RoutedEventArgs e)
+        {
+            if (this.Password.Text == "Пароль")
+                this.Password.Text = "";
+        }
+
+        private void Login_MouseDown(object sender, RoutedEventArgs e)
+        {
+            if (this.Login.Text == "Логин")
+                this.Login.Text = "";
+        }
+
+        private void SecondName_MouseDown(object sender, RoutedEventArgs e)
+        {
+            if (this.SecondName.Text == "Отчество")
+                this.SecondName.Text = "";
+        }
+
+        private void FirstName_MouseDown(object sender, RoutedEventArgs e)
+        {
+            if (this.FirstName.Text == "Имя")
+                this.FirstName.Text = "";
+        }
+
+        private void Surname_MouseDown(object sender, RoutedEventArgs e)
+        {
+            if (this.Surname.Text == "Фамилия")
+                this.Surname.Text = "";
         }
 
         public EditWindow(Record user, List<string> positions)
@@ -112,22 +154,14 @@ namespace View
 
         private void TextChanged(object sender, TextChangedEventArgs e)
         {
-            //if (e.Source == EditWindow)
-            record.Name = this.FirstName.Text;
-            record.Surname = this.Surname.Text;
-            record.SecondName = this.SecondName.Text;
+            record.Name = this.FirstName.Text == "Имя" ? "" : this.FirstName.Text;
+            record.Surname = this.Surname.Text == "Фамилия" ? "" : this.Surname.Text;
+            record.SecondName = this.SecondName.Text == "Отчество" ? "" : this.SecondName.Text;
             record.Position = (string)this.Position.SelectedItem;
-            record.Login = this.Login.Text;
-            record.Password = this.Password.Text;
+            record.Login = this.Login.Text == "Логин" ? "" : this.Login.Text;
+            record.Password = this.Password.Text == "Пароль" ? "" : this.Password.Text;
 
-            try
-            {
-                this.RecordModified(this.record);
-            }
-            catch(Exception)
-            {
-
-            }
+            this.RecordModified(this.record);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -16,7 +16,7 @@
         <Button x:Name="EditButton" Content="Изменить" HorizontalAlignment="Right" Margin="0,52,10,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" RenderTransformOrigin="1.268,0.541" Click="EditButton_Click"/>
         <Button x:Name="DeleteButton" Content="Удалить" HorizontalAlignment="Right" Margin="0,94,10,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" Click="DeleteButton_Click"/>
         <DataGrid AutoGenerateColumns="False" MouseDoubleClick="Records_MouseDoubleClick" x:Name="Records" Margin="10,38,127,10" SelectionChanged="Records_SelectionChanged" MinColumnWidth="11" 
-                  IsSynchronizedWithCurrentItem="True" CellEditEnding="Records_CellEditEnding" Keyboard.KeyDown="Records_KeyDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"> 
+                  IsSynchronizedWithCurrentItem="True" CellEditEnding="Records_CellEditEnding" Keyboard.PreviewKeyDown="Records_KeyDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"> 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Логин" Binding="{Binding Login}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}"></DataGridTextColumn>
@@ -33,8 +33,8 @@
 
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem MouseDown="MenuItem_Edit" Header="Изменить"></MenuItem>
-                    <MenuItem MouseDown="MenuItem_Delete" Header="Удалить"></MenuItem>
+                    <MenuItem Click="MenuItem_Edit" Header="Изменить"></MenuItem>
+                    <MenuItem Click="MenuItem_Delete" Header="Удалить"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

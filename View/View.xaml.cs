@@ -53,7 +53,6 @@ namespace View
 
         public void Update(List<Record> records)
         {
-            //this.Records.Items.Clear();
             this.Records.ItemsSource = records;
         }
 
@@ -117,14 +116,36 @@ namespace View
             this.editWindow.ShowDialog();
         }
 
-        private void MenuItem_Delete(object sender, MouseButtonEventArgs e)
+        private void MenuItem_Delete(object sender, RoutedEventArgs e)
         {
-            this.UserDeleted(this.Records.SelectedItem as Record);
+            if (this.Records.SelectedIndex != -1)
+            {
+                MessageBoxResult result = MessageBox.Show("Действительно удалить пользователя?", "Подтверждение", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                    this.UserDeleted(this.Records.SelectedItem as Record);
+            }
+            this.SearchText.Text = "";
         }
 
         private void Records_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            this.ReplaceUser(this.Records.SelectedItem as Record);
+            Record user = this.Records.SelectedItem as Record;
+            switch (e.Column.Header)
+            {
+                case "Логин":
+                    user.Login = ((TextBox)e.EditingElement).Text;
+                    break;
+                case "Имя":
+                    user.Name = ((TextBox)e.EditingElement).Text;
+                    break;
+                case "Фамилия":
+                    user.Surname = ((TextBox)e.EditingElement).Text;
+                    break;
+                case "Отчество":
+                    user.SecondName = ((TextBox)e.EditingElement).Text;
+                    break;
+            }
+            this.ReplaceUser(user);
         }
 
         public void UpdatePositions(List<string> positions)
@@ -152,7 +173,7 @@ namespace View
             {
                 if (this.Records.SelectedIndex != -1)
                 {
-                    MessageBoxResult result = MessageBox.Show("Подтверждение", "Действительно удалить пользователя?", MessageBoxButton.YesNo);
+                    MessageBoxResult result = MessageBox.Show("Действительно удалить пользователя?", "Подтверждение", MessageBoxButton.YesNo);
                     if (result == MessageBoxResult.Yes)
                         this.UserDeleted(this.Records.SelectedItem as Record);
                 }
