@@ -38,13 +38,22 @@ namespace NoteBook
         public bool NonExisting(Record user)
         {
             string check = "SELECT count(*) FROM user WHERE login = \"" + user.Login + "\"";
-            MySqlCommand command = new MySqlCommand(check, connection);
+            MySqlCommand command = new MySqlCommand(check, connection);            
             int i = System.Convert.ToInt32(command.ExecuteScalar());
             
             if (i == 0)
                 return false;
+            else
+            {
+                check = "SELECT count(*) FROM user WHERE id = \"" + user.Id.ToString() + "\" and login = \"" + user.Login + "\"";
+                command = new MySqlCommand(check, connection);
+                i = System.Convert.ToInt32(command.ExecuteScalar());
 
-            return true;
+                if (i == 0)
+                    return true;
+
+                return false;
+            }            
         }        
 
         public void Add(Record user)

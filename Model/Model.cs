@@ -144,16 +144,16 @@ namespace Model
             else if (strength > 4)
                 password = ErrorStruct.PassStrength.High;
 
-            if (user.Login == "")
-            {
+            if (user.Login == "" )
+            {                                
                 correct = false;
-                login = true;
-                flag = true;
+                flag = true;                            
+                login = true;                
             }
             else if (user.Login.Length < 51)
                 login = !connection.NonExisting(user);
             else
-                login = false;
+                login = true;
 
             if(!flag)
                 correct = login && firstName && secondName && surname;
