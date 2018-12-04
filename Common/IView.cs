@@ -12,6 +12,7 @@ namespace NoteBook
     public delegate void SearchHandler(string text);
     public delegate void NeedToUpdateHandler();
     public delegate void ReplaceUserHandler(Record record);
+    public delegate void ConnectionHandler(string ip, string user, string dataBase, string password);
 
     public interface IView
     {
@@ -21,11 +22,13 @@ namespace NoteBook
         event SearchHandler Search;
         event NeedToUpdateHandler NeedToUpdate;
         event ReplaceUserHandler ReplaceUser;
+        event ConnectionHandler ConnectToDB;
 
         void Update(List<Record> records);
         void IncorrectData(ErrorStruct error);
         void StartApp();
         void UpdatePositions(List<string> positions);
+        void Connection(bool success);
     }
 
 }

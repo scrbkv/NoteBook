@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Security.Cryptography;
 using NoteBook;
+using Model.Properties;
 
 namespace Model
 {
@@ -31,12 +32,21 @@ namespace Model
         public Model()
         {
             connection = new Connection();
-            connection.Connect("localhost", "root", "testdb", "rootme");
+            connection.Connect(Settings.Default["ip"].ToString(), Settings.Default["user"].ToString(), Settings.Default["dataBase"].ToString(), Settings.Default["password"].ToString());
         }
 
-        public void Connect(string ip, string user, string dataBase, string password)
+        public bool Connect(string ip, string user, string dataBase, string password)
         {
-            connection.Connect(ip, user, dataBase, password);
+            if(connection.Connect(ip, user, dataBase, password))
+            {
+                Settings.Default["ip"] = ip;
+                Settings.Default["user"] = user;
+                Settings.Default["dataBase"] = dataBase;
+                Settings.Default["password"] = password;
+                return true;
+            }
+
+            return false;
         }
 
         public event DBUpdatedHandler DBUpdated;
@@ -100,6 +110,7 @@ namespace Model
             bool secondName = false;
             bool surname = false;
             bool correct = false;
+            bool position = false;
             ErrorStruct.PassStrength password = new ErrorStruct.PassStrength();
             if (user.Surname == "")
             {
@@ -155,10 +166,13 @@ namespace Model
             else
                 login = true;
 
-            if(!flag)
-                correct = login && firstName && secondName && surname;
+            if (user.Position != null)
+                position = true;
 
-            return new ErrorStruct(login, firstName, secondName, surname, password, correct);
+            if (!flag)
+                correct = login && firstName && secondName && surname && position;         
+
+            return new ErrorStruct(login, firstName, secondName, surname, password, position, correct);
             //throw new NotImplementedException();
         }
 

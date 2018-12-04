@@ -25,9 +25,15 @@ namespace NoteBook
             view.UserModified += View_UserModified;
             view.Search += View_Search;
             view.NeedToUpdate += View_NeedToUpdate;
+            view.ConnectToDB += View_ConnectToDB;
             view.UpdatePositions(model.GetPositions());
             view.UpdatePositions(model.GetPositions());
             view.StartApp();
+        }
+
+        private void View_ConnectToDB(string ip, string user, string dataBase, string password)
+        {
+            view.Connection(model.Connect(ip, user, dataBase, password));
         }
 
         private void View_ReplaceUser(Record record)

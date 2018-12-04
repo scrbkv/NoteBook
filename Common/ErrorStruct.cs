@@ -14,7 +14,7 @@ namespace NoteBook
             Correct = true;
         }
 
-        public ErrorStruct(bool login, bool firstname, bool secondName, bool surname, PassStrength strength, bool correct)
+        public ErrorStruct(bool login, bool firstname, bool secondName, bool surname, PassStrength strength, bool Position, bool correct)
         {
             Correct = correct;
 

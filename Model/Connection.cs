@@ -21,13 +21,23 @@ namespace NoteBook
 
         }
 
-        public void Connect(string ip, string user, string dataBase, string password)
+        public bool Connect(string ip, string user, string dataBase, string password)
         {
 
             _connectStr = "server=" + ip + ";user=" + user + ";database=" + dataBase + ";password=" + password;
             connection = new MySqlConnection(_connectStr);
-            connection.Open();
+            MySqlConnection conn = new MySqlConnection(_connectStr);
+            try
+            {
+                connection.Open();
+            }
+            catch(Exception)
+            {
+                return false;
+            }
             ls = new List<string> { "login", "password", "name", "second_name", "surname" };
+
+            return true;
         }
 
         ~Connection()

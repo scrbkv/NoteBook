@@ -161,12 +161,23 @@ namespace View
             record.Login = this.Login.Text == "Логин" ? "" : this.Login.Text;
             record.Password = this.Password.Text == "Пароль" ? "" : this.Password.Text;
 
+            this.record.Position = (string)this.Position.SelectedItem;
+
             this.RecordModified(this.record);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             this.record.Position = (string)this.Position.SelectedItem;
+
+            record.Name = this.FirstName.Text == "Имя" ? "" : this.FirstName.Text;
+            record.Surname = this.Surname.Text == "Фамилия" ? "" : this.Surname.Text;
+            record.SecondName = this.SecondName.Text == "Отчество" ? "" : this.SecondName.Text;
+            record.Position = (string)this.Position.SelectedItem;
+            record.Login = this.Login.Text == "Логин" ? "" : this.Login.Text;
+            record.Password = this.Password.Text == "Пароль" ? "" : this.Password.Text;
+
+            this.RecordModified(this.record);
         }
     }
 }

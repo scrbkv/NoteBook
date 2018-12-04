@@ -40,7 +40,7 @@
             </TextBlock>
         </Popup>
         <TextBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="10,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ToolTip="Пароль" TabIndex="6"/>
-        <Button x:Name="Save" Content="Сохранить" HorizontalAlignment="Left" Margin="110,237,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="Save_Click" TabIndex="8"/>
+        <Button x:Name="Save" Content="Сохранить" HorizontalAlignment="Left" Margin="110,237,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="Save_Click" TabIndex="8" IsEnabled="False"/>
         <Button x:Name="Cancel" Content="Отменить" HorizontalAlignment="Left" Margin="28,237,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="Cancel_Click" TabIndex="7"/>
         <ProgressBar x:Name="PWStrength" HorizontalAlignment="Left" Height="4" Margin="10,226,0,0" VerticalAlignment="Top" Width="200">
             <ProgressBar.Effect>

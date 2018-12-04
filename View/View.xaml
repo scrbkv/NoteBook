@@ -16,7 +16,7 @@
         <Button x:Name="EditButton" Content="Изменить" HorizontalAlignment="Right" Margin="0,52,10,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" RenderTransformOrigin="1.268,0.541" Click="EditButton_Click"/>
         <Button x:Name="DeleteButton" Content="Удалить" HorizontalAlignment="Right" Margin="0,94,10,0" VerticalAlignment="Top" Width="112" Height="37" IsEnabled="False" Click="DeleteButton_Click"/>
         <DataGrid AutoGenerateColumns="False" MouseDoubleClick="Records_MouseDoubleClick" x:Name="Records" Margin="10,38,127,10" SelectionChanged="Records_SelectionChanged" MinColumnWidth="11" 
-                  IsSynchronizedWithCurrentItem="True" CellEditEnding="Records_CellEditEnding" Keyboard.PreviewKeyDown="Records_KeyDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"> 
+                  IsSynchronizedWithCurrentItem="True" CellEditEnding="Records_CellEditEnding" Keyboard.PreviewKeyDown="Records_KeyDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Логин" Binding="{Binding Login}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}"></DataGridTextColumn>
@@ -24,7 +24,7 @@
                 <DataGridTextColumn Header="Отчество" Binding="{Binding SecondName}"></DataGridTextColumn>
 
                 <DataGridTextColumn x:Name="PositionsColumn" Header="Должность" Binding="{Binding Position}" IsReadOnly="True">
-                    
+
                 </DataGridTextColumn>
 
 
@@ -40,6 +40,7 @@
         </DataGrid>
         <TextBox x:Name="SearchText" Height="23" Margin="88,10,131,0" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Top" TextChanged="LoginSearch_TextChanged" ToolTip="Логин"/>
         <Label Content="Поиск" HorizontalAlignment="Left" Margin="25,6,0,0" VerticalAlignment="Top" FontSize="16" Width="62" RenderTransformOrigin="0.694,0.481"/>
+        <Button x:Name="ConnectButton" Content="Подключиться" HorizontalAlignment="Left" Margin="487,270,0,0" VerticalAlignment="Top" Width="112" Height="39" Click="ConnectButton_Click"/>
 
     </Grid>
 </Window>

@@ -25,8 +25,10 @@ namespace View
         public event SearchHandler Search;
         public event NeedToUpdateHandler NeedToUpdate;
         public event ReplaceUserHandler ReplaceUser;
+        public event ConnectionHandler ConnectToDB;
 
         private EditWindow editWindow;
+        private ConnectWindow connectWindow;
         public static List<string> Positions { get; set; } = new List<string>();
 
         public MainWindow()
@@ -179,6 +181,26 @@ namespace View
                 }
                 this.SearchText.Text = "";
             }
+        }
+
+        private void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.connectWindow = new ConnectWindow();
+            connectWindow.Connect += ConnectWindow_Connect;
+            connectWindow.ShowDialog();
+        }
+
+        private void ConnectWindow_Connect(string ip, string user, string dataBase, string password)
+        {
+            this.ConnectToDB(ip, user, dataBase, password);
+        }
+
+        public void Connection(bool success)
+        {
+            if (success)
+                this.connectWindow.Close();
+            else
+                this.connectWindow.Error();
         }
     }
 }
